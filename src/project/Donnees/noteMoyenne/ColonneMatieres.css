@@ -1,0 +1,27 @@
+.matiereetNote {
+  display: flex;
+
+  align-items: center;
+  margin-top: 1%;
+}
+.matierenote {
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  text-align: center;
+}
+.matiereetNote {
+  display: flex;
+
+  align-items: center;
+  margin-top: 1%;
+}
+.matierenote {
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  text-align: center;
+}
+.matierenom {
+  width: 35%;
+}
