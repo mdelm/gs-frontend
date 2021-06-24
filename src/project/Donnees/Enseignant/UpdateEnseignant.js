@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import "./UpdateEnseignantStyle.css"
-import { Button, Upload} from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { Button} from 'antd';
 import enseignantController from '../../services/Controllers/enseignantController'
 import Modal from 'react-bootstrap/Modal'
 

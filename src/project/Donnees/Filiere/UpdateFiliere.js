@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import "./UpdateFiliereStyle.css"
-import { Button, Upload} from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import Modal from 'react-bootstrap/Modal'
 
 import filiereController from '../../services/Controllers/filiereController'

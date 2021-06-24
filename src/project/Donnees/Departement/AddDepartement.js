@@ -22,12 +22,12 @@ import axios from 'axios'
       data["responsableDepartement"]=this.state.responsableDepartement
       data["nom"]=this.state.nom
       data["libelle"]=this.state.libelle
-        const config ={
+        /*const config ={
             headers:{
             'Content-Type':'multipart/form-data'
             }
 
-        }
+        }*/
         console.log('errr');
         console.log('data',data);
         axios.post('http://localhost:3000/departements/addDepartement',data).then(response=>{

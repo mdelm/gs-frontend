@@ -7,7 +7,6 @@ import {
   CSidebarNav,
   CSidebarNavDivider,
   CSidebarNavTitle,
-  CSidebarMinimizer,
   CSidebarNavDropdown,
   CSidebarNavItem,
 } from '@coreui/react'
@@ -17,7 +16,6 @@ import {nav_admin, nav_etudiant, nav_enseignant} from './_nav'
 
 // sidebar nav config
 
-import TheSidebarStyle from './THeSidebarStyle.css'
 const TheSidebar = () => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.sidebarShow)

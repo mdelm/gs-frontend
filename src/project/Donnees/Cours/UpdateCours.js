@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import "./UpdateCoursStyle.css"
-import { Button, Upload} from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
 import Modal from 'react-bootstrap/Modal'
 import './UpdateCoursStyle.css'
-
-import axios from 'axios';
 import coursController from '../../services/Controllers/coursController'
+
 class UpdateCours extends Component {
     constructor(){
         super()

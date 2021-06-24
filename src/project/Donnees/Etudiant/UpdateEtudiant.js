@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import "./UpdateEtudiantStyle.css"
-import { Button, Upload} from 'antd';
 import Modal from 'react-bootstrap/Modal'
 
-import { UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import etudiantController from'../../services/Controllers/etudiantController'
 
 class UpdateEtudiant extends Component {

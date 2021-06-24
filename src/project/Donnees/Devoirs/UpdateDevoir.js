@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Button, Upload} from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
 import Modal from 'react-bootstrap/Modal'
 import './UpdateDevoirStyle.css' ;
 import devoirController from '../../services/Controllers/devoirController'

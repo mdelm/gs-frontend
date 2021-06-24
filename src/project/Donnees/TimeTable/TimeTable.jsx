@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Tabs } from 'antd';
 import 'antd/dist/antd.css';
 import timeTableController from '../../services/Controllers/timeTableController'
@@ -11,7 +11,7 @@ function TimeTable() {
   const [seance2 , steseance2]=useState('')
   const [seance3  , setseance3]=useState('')
   const [seance4 ,  setseance4]=useState('')
-  const [data, setdata] = useState(null)
+  // const [ data, setdata] = useState(null)
   const [emploiinfos, setemploiinfos] = useState('')
   const [seancenum, setseancenum] = useState(1)
   const seanceconfirmed = () => {

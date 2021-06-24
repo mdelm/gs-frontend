@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
-import {Button} from 'react-bootstrap'
 import axios from "axios"
 import moduleController from '../../services/Controllers/moduleController'
 import PageHeader from "../../components/PageHeader";

@@ -53,12 +53,12 @@ import axios from 'axios'
       data["Groupe"]=this.state.Groupe
       data["emailParent"]=this.state.emailParent
 
-        const config ={
+        /*const config ={
             headers:{
             'Content-Type':'multipart/form-data'
             }
 
-        }
+        }*/
         console.log('errr');
         console.log('data',data);
         axios.post('http://localhost:3000/etudiants/addEtudiant',data).then(response=>{

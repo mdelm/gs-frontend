@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 import "./UpdateSalleStyle.css"
-import { Button, Upload} from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import salleController from '../../services/Controllers/salleController'
 import Modal from 'react-bootstrap/Modal'
 

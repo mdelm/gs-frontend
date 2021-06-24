@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
-import {Button} from 'react-bootstrap'
 import axios from "axios"
 import salleController from '../../services/Controllers/salleController'
 import PageHeader from "../../components/PageHeader";
@@ -10,6 +7,7 @@ import Controls from "../../components/controls/Controls";
 import AddIcon from '@material-ui/icons/Add';
 import AddSalle from './AddSalle';
 import UpdateSalle from './UpdateSalle';
+
 class TableSalle extends Component {
 
     handleClick(evt){

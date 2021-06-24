@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
-import {Button} from 'react-bootstrap'
 import axios from "axios"
-import EnseignantController from '../../services/Controllers/enseignantController'
 import PageHeader from "../../components/PageHeader";
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
-import MaterialTable from 'material-table'
 import Controls from "../../components/controls/Controls";
 import AddIcon from '@material-ui/icons/Add';
-import { makeStyles } from '@material-ui/core';
 import AddMatiere from './AddMatiere'
 import UpdateMatiere from './UpdateMatiere'
 

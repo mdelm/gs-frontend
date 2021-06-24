@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import "./UpdateDepartementStyle.css"
-import { Button, Upload} from 'antd';
 
-import { UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import departementController from'../../services/Controllers/departementController'
 import Modal from 'react-bootstrap/Modal'
 class UpdateDepartement extends Component {

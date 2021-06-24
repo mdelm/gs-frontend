@@ -53,12 +53,12 @@ import enseignantController from 'src/project/services/Controllers/enseignantCon
           data["GSM"]=this.state.GSM
 
 
-            const config ={
+            /*const config ={
                 headers:{
                 'Content-Type':'multipart/form-data'
                 }
     
-            }
+            }*/
             console.log('errr');
             console.log('data',data);
             axios.post('http://localhost:3000/enseignant/AddEnseignant',data).then(response=>{

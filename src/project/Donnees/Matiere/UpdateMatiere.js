@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import "./UpdateMatiereStyle.css"
-import { Button, Upload} from 'antd';
+import { Button} from 'antd';
 import Modal from 'react-bootstrap/Modal'
 
-import { UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import matiereController from '../../services/Controllers/matiereController';
+
 class UpdateMatiere extends Component {
     constructor(){
         super()

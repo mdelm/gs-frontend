@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
-import userController from '../../../project/services/Controllers/userController'
 import {
   MDBContainer,
   MDBRow,
   MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBModalFooter,
-  MDBIcon,
-  MDBCardHeader,
-  MDBBtn,
-  MDBInput,
-  MDBTable, MDBTableBody, MDBTableHead
 } from "mdbreact";
-import CIcon from '@coreui/icons-react'
 import "./notes.css";
 import axios from "axios";
 

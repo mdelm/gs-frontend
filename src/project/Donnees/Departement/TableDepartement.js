@@ -1,5 +1,4 @@
-import React, { Component,useState } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import React, { Component } from 'react';
 import {Button,Modal} from 'react-bootstrap'
 import axios from "axios"
 import departementController from '../../services/Controllers/departementController'
@@ -9,8 +8,6 @@ import Controls from "../../components/controls/Controls";
 import AddIcon from '@material-ui/icons/Add';
 import AddDepartement from './AddDepartement'
 import UpdateDepartement from './UpdateDepartement'
-
-
 
 class TableDepartement extends Component {
   

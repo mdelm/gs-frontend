@@ -1,22 +1,9 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import {Button} from 'react-bootstrap'
 import axios from "axios"
 import './AddCoursStyle.css'
 
 import Modal from 'react-bootstrap/Modal'
-
-import PageHeader from "../../components/PageHeader";
-import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
-import MaterialTable from 'material-table'
-import Controls from "../../components/controls/Controls";
-import AddIcon from '@material-ui/icons/Add';
-import { makeStyles } from '@material-ui/core';
-
-
-
-
-
 
 class AddCours extends Component {
 
@@ -31,12 +18,12 @@ class AddCours extends Component {
         event.preventDefault();
         const data ={}
       data["nom"]=this.state.nom
-        const config ={
+        /*const config ={
             headers:{
             'Content-Type':'multipart/form-data'
             }
 
-        }
+        }*/
         console.log('errr');
         console.log('data',data);
         axios.post('http://localhost:3000/cours/AddCours',data).then(response=>{

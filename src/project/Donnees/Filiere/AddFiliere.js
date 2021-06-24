@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap/Modal'
-import {Button} from 'react-bootstrap'
 import './AddFiliereStyle.css';
 import axios from 'axios'
 
@@ -21,12 +20,12 @@ import axios from 'axios'
         const data ={}
       data["nom_filiere"]=this.state.nom_filiere
       data["niveau"]=this.state.niveau
-        const config ={
+        /*const config ={
             headers:{
             'Content-Type':'multipart/form-data'
             }
 
-        }
+        }*/
         console.log('errr');
         console.log('data',data);
         axios.post('http://localhost:3000/filiere/addfiliere',data).then(response=>{

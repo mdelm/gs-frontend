@@ -16,8 +16,8 @@ class index extends Component {
                         <div className="modal-body customer-box">
                         {/* Nav tabs */}
                         <ul className="nav nav-tabs">
-                            <li><a className="active" href="#Login" data-toggle="tab">Login</a></li>
-                            <li><a href="#Registration" data-toggle="tab">Registration</a></li>
+                            <li><a className="active"  data-toggle="tab">Login</a></li>
+                            <li><a  data-toggle="tab">Registration</a></li>
                         </ul>
                         {/* Tab panes */}
                         <div className="tab-content">
@@ -105,7 +105,7 @@ class index extends Component {
                             <li className="nav-item active"><a className="nav-link" href="index.html">Home</a></li>
                             <li className="nav-item"><a className="nav-link" href="about.html">About Us</a></li>
                             <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Course </a>
+                            <a className="nav-link dropdown-toggle"  id="dropdown-a" data-toggle="dropdown">Course </a>
                             <div className="dropdown-menu" aria-labelledby="dropdown-a">
                                 <a className="dropdown-item" href="course-grid-2.html">Course Grid 2 </a>
                                 <a className="dropdown-item" href="course-grid-3.html">Course Grid 3 </a>
@@ -113,7 +113,7 @@ class index extends Component {
                             </div>
                             </li>
                             <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Blog </a>
+                            <a className="nav-link dropdown-toggle"  id="dropdown-a" data-toggle="dropdown">Blog </a>
                             <div className="dropdown-menu" aria-labelledby="dropdown-a">
                                 <a className="dropdown-item" href="blog.html">Blog </a>
                                 <a className="dropdown-item" href="blog-single.html">Blog single </a>
@@ -124,7 +124,7 @@ class index extends Component {
                             <li className="nav-item"><a className="nav-link" href="contact.html">Contact</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a className="hover-btn-new log orange" href="#" data-toggle="modal" data-target="#login"><span>Book Now</span></a></li>
+                            <li><a className="hover-btn-new log orange"  data-toggle="modal" data-target="#login"><span>Book Now</span></a></li>
                         </ul>
                         </div>
                     </div>
@@ -148,9 +148,9 @@ class index extends Component {
                                 <div className="big-tagline">
                                     <h2><strong>SmartEDU </strong> education College</h2>
                                     <p className="lead">With Landigoo responsive landing page template, you can promote your all hosting, domain and email services. </p>
-                                    <a href="#" className="hover-btn-new"><span>Contact Us</span></a>
+                                    <a  className="hover-btn-new"><span>Contact Us</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" className="hover-btn-new"><span>Read More</span></a>
+                                    <a  className="hover-btn-new"><span>Read More</span></a>
                                 </div>
                                 </div>
                             </div>{/* end row */}            
@@ -167,9 +167,9 @@ class index extends Component {
                                 <div className="big-tagline">
                                     <h2 data-animation="animated zoomInRight">SmartEDU <strong>education school</strong></h2>
                                     <p className="lead" data-animation="animated fadeInLeft">With Landigoo responsive landing page template, you can promote your all hosting, domain and email services. </p>
-                                    <a href="#" className="hover-btn-new"><span>Contact Us</span></a>
+                                    <a  className="hover-btn-new"><span>Contact Us</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" className="hover-btn-new"><span>Read More</span></a>
+                                    <a  className="hover-btn-new"><span>Read More</span></a>
                                 </div>
                                 </div>
                             </div>{/* end row */}            
@@ -188,9 +188,9 @@ class index extends Component {
                                     <p className="lead" data-animation="animated fadeInLeft">1 IP included with each server 
                                     Your Choice of any OS (CentOS, Windows, Debian, Fedora)
                                     FREE Reboots</p>
-                                    <a href="#" className="hover-btn-new"><span>Contact Us</span></a>
+                                    <a  className="hover-btn-new"><span>Contact Us</span></a>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="#" className="hover-btn-new"><span>Read More</span></a>
+                                    <a  className="hover-btn-new"><span>Read More</span></a>
                                 </div>
                                 </div>
                             </div>{/* end row */}            
@@ -199,12 +199,12 @@ class index extends Component {
                         </div>{/* end section */}
                     </div>
                     {/* Left Control */}
-                    <a className="new-effect carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <a className="new-effect carousel-control-prev"  role="button" data-slide="prev">
                         <span className="fa fa-angle-left" aria-hidden="true" />
                         <span className="sr-only">Previous</span>
                     </a>
                     {/* Right Control */}
-                    <a className="new-effect carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <a className="new-effect carousel-control-next"  role="button" data-slide="next">
                         <span className="fa fa-angle-right" aria-hidden="true" />
                         <span className="sr-only">Next</span>
                     </a>
@@ -225,7 +225,7 @@ class index extends Component {
                             <h2>Welcome to SmartEDU education school</h2>
                             <p>Quisque eget nisl id nulla sagittis auctor quis id. Aliquam quis vehicula enim, non aliquam risus. Sed a tellus quis mi rhoncus dignissim.</p>
                             <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis montes, nascetur ridiculus mus. Sed vitae rutrum neque. </p>
-                            <a href="#" className="hover-btn-new orange"><span>Learn More</span></a>
+                            <a  className="hover-btn-new orange"><span>Learn More</span></a>
                         </div>{/* end messagebox */}
                         </div>{/* end col */}
                         <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -245,7 +245,7 @@ class index extends Component {
                             <h2>The standard Lorem Ipsum passage, used since the 1500s</h2>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                             <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum.</p>
-                            <a href="#" className="hover-btn-new orange"><span>Learn More</span></a>
+                            <a  className="hover-btn-new orange"><span>Learn More</span></a>
                         </div>{/* end messagebox */}
                         </div>{/* end col */}
                     </div>{/* end row */}
@@ -381,7 +381,7 @@ class index extends Component {
                                     <p><i className="fa fa-life-ring" /> <strong>24/7 Unlimited</strong> Support</p>
                                     </div>
                                     <div className="pricing-table-sign-up">
-                                    <a href="#" className="hover-btn-new orange"><span>Order Now</span></a>
+                                    <a  className="hover-btn-new orange"><span>Order Now</span></a>
                                     </div>
                                 </div>
                                 </div>
@@ -400,7 +400,7 @@ class index extends Component {
                                     <p><i className="fa fa-life-ring" /> <strong>24/7 Unlimited</strong> Support</p>
                                     </div>
                                     <div className="pricing-table-sign-up">
-                                    <a href="#" className="hover-btn-new orange"><span>Order Now</span></a>
+                                    <a  className="hover-btn-new orange"><span>Order Now</span></a>
                                     </div>
                                 </div>
                                 </div>
@@ -419,7 +419,7 @@ class index extends Component {
                                     <p><i className="fa fa-life-ring" /> <strong>24/7 Unlimited</strong> Support</p>
                                     </div>
                                     <div className="pricing-table-sign-up">
-                                    <a href="#" className="hover-btn-new orange"><span>Order Now</span></a>
+                                    <a  className="hover-btn-new orange"><span>Order Now</span></a>
                                     </div>
                                 </div>
                                 </div>
@@ -442,7 +442,7 @@ class index extends Component {
                                     <p><i className="fa fa-life-ring" /> <strong>24/7 Unlimited</strong> Support</p>
                                     </div>
                                     <div className="pricing-table-sign-up">
-                                    <a href="#" className="hover-btn-new orange"><span>Order Now</span></a>
+                                    <a  className="hover-btn-new orange"><span>Order Now</span></a>
                                     </div>
                                 </div>
                                 </div>
@@ -461,7 +461,7 @@ class index extends Component {
                                     <p><i className="fa fa-life-ring" /> <strong>24/7 Unlimited</strong> Support</p>
                                     </div>
                                     <div className="pricing-table-sign-up">
-                                    <a href="#" className="hover-btn-new orange"><span>Order Now</span></a>
+                                    <a  className="hover-btn-new orange"><span>Order Now</span></a>
                                     </div>
                                 </div>
                                 </div>
@@ -480,7 +480,7 @@ class index extends Component {
                                     <p><i className="fa fa-life-ring" /> <strong>24/7 Unlimited</strong> Support</p>
                                     </div>
                                     <div className="pricing-table-sign-up">
-                                    <a href="#" className="hover-btn-new orange"><span>Order Now</span></a>
+                                    <a  className="hover-btn-new orange"><span>Order Now</span></a>
                                     </div>
                                 </div>
                                 </div>
@@ -580,22 +580,22 @@ class index extends Component {
                     <div className="container">
                     <div className="row logos">
                         <div className="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                        <a href="#"><img src="images/logo_01.png" alt className="img-repsonsive" /></a>
+                        <a ><img src="images/logo_01.png" alt className="img-repsonsive" /></a>
                         </div>
                         <div className="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                        <a href="#"><img src="images/logo_02.png" alt className="img-repsonsive" /></a>
+                        <a ><img src="images/logo_02.png" alt className="img-repsonsive" /></a>
                         </div>
                         <div className="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                        <a href="#"><img src="images/logo_03.png" alt className="img-repsonsive" /></a>
+                        <a ><img src="images/logo_03.png" alt className="img-repsonsive" /></a>
                         </div>
                         <div className="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                        <a href="#"><img src="images/logo_04.png" alt className="img-repsonsive" /></a>
+                        <a ><img src="images/logo_04.png" alt className="img-repsonsive" /></a>
                         </div>
                         <div className="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                        <a href="#"><img src="images/logo_05.png" alt className="img-repsonsive" /></a>
+                        <a ><img src="images/logo_05.png" alt className="img-repsonsive" /></a>
                         </div>
                         <div className="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                        <a href="#"><img src="images/logo_06.png" alt className="img-repsonsive" /></a>
+                        <a ><img src="images/logo_06.png" alt className="img-repsonsive" /></a>
                         </div>
                     </div>{/* end row */}
                     </div>{/* end container */}
@@ -611,11 +611,11 @@ class index extends Component {
                             <p> Integer rutrum ligula eu dignissim laoreet. Pellentesque venenatis nibh sed tellus faucibus bibendum. Sed fermentum est vitae rhoncus molestie. Cum sociis natoque penatibus et magnis dis montes.</p>   
                             <div className="footer-right">
                             <ul className="footer-links-soi">
-                                <li><a href="#"><i className="fa fa-facebook" /></a></li>
-                                <li><a href="#"><i className="fa fa-github" /></a></li>
-                                <li><a href="#"><i className="fa fa-twitter" /></a></li>
-                                <li><a href="#"><i className="fa fa-dribbble" /></a></li>
-                                <li><a href="#"><i className="fa fa-pinterest" /></a></li>
+                                <li><a ><i className="fa fa-facebook" /></a></li>
+                                <li><a ><i className="fa fa-github" /></a></li>
+                                <li><a ><i className="fa fa-twitter" /></a></li>
+                                <li><a ><i className="fa fa-dribbble" /></a></li>
+                                <li><a ><i className="fa fa-pinterest" /></a></li>
                             </ul>{/* end links */}
                             </div>						
                         </div>{/* end clearfix */}
@@ -626,11 +626,11 @@ class index extends Component {
                             <h3>Information Link</h3>
                             </div>
                             <ul className="footer-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Pricing</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a >Home</a></li>
+                            <li><a >Blog</a></li>
+                            <li><a >Pricing</a></li>
+                            <li><a >About</a></li>
+                            <li><a >Contact</a></li>
                             </ul>{/* end links */}
                         </div>{/* end clearfix */}
                         </div>{/* end col */}
@@ -641,7 +641,7 @@ class index extends Component {
                             </div>
                             <ul className="footer-links">
                             <li><a href="mailto:#">info@yoursite.com</a></li>
-                            <li><a href="#">www.yoursite.com</a></li>
+                            <li><a >www.yoursite.com</a></li>
                             <li>PO Box 16122 Collins Street West Victoria 8007 Australia</li>
                             <li>+61 3 8376 6284</li>
                             </ul>{/* end links */}
@@ -654,12 +654,12 @@ class index extends Component {
                     <div className="container">
                     <div className="footer-distributed">
                         <div className="footer-center">                   
-                        <p className="footer-company-name">All Rights Reserved. © 2018 <a href="#">SmartEDU</a> Design By : <a href="https://html.design/">html design</a></p>
+                        <p className="footer-company-name">All Rights Reserved. © 2018 <a >SmartEDU</a> Design By : <a href="https://html.design/">html design</a></p>
                         </div>
                     </div>
                     </div>
                 </div>
-                <a href="#" id="scroll-to-top" className="dmtop global-radius"><i className="fa fa-angle-up" /></a>
+                <a  id="scroll-to-top" className="dmtop global-radius"><i className="fa fa-angle-up" /></a>
                 </div>
 
             </div>
