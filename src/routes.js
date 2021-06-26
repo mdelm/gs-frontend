@@ -98,6 +98,7 @@ const TroisMeilleursEtudiants=React.lazy(()=>import('./project/Donnees/moyyyy/tr
 const TablematiereEnseig = React.lazy(()=>import('./project/Donnees/matieres/TablematiereEnseig'))
 const SaisiDesNotes = React.lazy(()=>import('./project/Donnees/moyyyy/SaisiDesNotes'))
 const ClasseNotes = React.lazy(()=>import('./project/Donnees/moyyyy/classeNotes'))
+const MoyenneGenerale = React.lazy(()=>import('./project/Donnees/moyyyy/moyenneGenerale'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -210,6 +211,7 @@ const routes = [
  {path : '/notes/troisMeilleursEtudiants', name: 'Notes', component:TroisMeilleursEtudiants},
  {path : '/notes/SaisiDesNotes', name: 'Notes', component:SaisiDesNotes},
  {path : '/notes/classe/:nom_classe', name: 'Notes', component:ClasseNotes},
+ {path : '/notes/moyenneGenerale/:nom_classe', name: 'Notes', component:MoyenneGenerale},
  {path : '/notes/:nom_etudiant', name: 'Notes', component:notes},
 
 ];

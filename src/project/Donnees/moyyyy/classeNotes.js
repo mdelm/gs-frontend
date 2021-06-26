@@ -12,6 +12,7 @@ class ClasseNotes extends Component {
     }
 
     this.fetchClasseNotes = this.fetchClasseNotes.bind(this);
+    this.handleCalculerMoyenneGenerale = this.handleCalculerMoyenneGenerale.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +26,10 @@ class ClasseNotes extends Component {
       });
   }
 
+  handleCalculerMoyenneGenerale() {
+    this.props.history.push(`/notes/moyenneGenerale/${this.props.match.params.nom_classe}`);
+  }
+
 
   render() {
     const inputStyle = {width: "100%", border: "1px solid gray"};
@@ -32,7 +37,7 @@ class ClasseNotes extends Component {
     return (
       <Container>
         <div className="row text-center" id="header">
-          <h1>Note <sup>[{this.props.match.params.nom_classe}]</sup></h1>
+          <h1>Moyenne Generale <sup>[{this.props.match.params.nom_classe}]</sup></h1>
         </div>
         <Row>
           <Col>
@@ -54,6 +59,8 @@ class ClasseNotes extends Component {
                   return <tr key={idx}>
                     <td>{etudiant.matricule}</td>
                     <td>2020/2021</td>
+
+
                     <td>1</td>
                     <td>
                       {notes.map((note, idx) => <Row key={idx}>{note.matiere.nom}</Row>)}
@@ -66,6 +73,15 @@ class ClasseNotes extends Component {
                     </td>
                   </tr>
                 })}
+
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td colSpan={3}>
+                    <Button color="primary" block onClick={this.handleCalculerMoyenneGenerale}>Calculer La Moyenne Generale</Button>
+                  </td>
+                </tr>
 
               </tbody>
               
