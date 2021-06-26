@@ -7,8 +7,22 @@ class ClasseNotes extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      etudiants: []
+    }
 
-    
+    this.fetchClasseNotes = this.fetchClasseNotes.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchClasseNotes();
+  }
+
+  fetchClasseNotes() {
+    axios.get(`http://localhost:3000/notes/classe/${this.props.match.params.nom_classe}`)
+      .then(res => {
+        this.setState({...this.state, etudiants: res.data.data});
+      });
   }
 
 
@@ -18,7 +32,7 @@ class ClasseNotes extends Component {
     return (
       <Container>
         <div className="row text-center" id="header">
-          <h1>Note</h1>
+          <h1>Note <sup>[{this.props.match.params.nom_classe}]</sup></h1>
         </div>
         <Row>
           <Col>
@@ -35,22 +49,23 @@ class ClasseNotes extends Component {
               </thead>
               
               <tbody>
-                  
-                <tr>
-                  
-                  <td>ETUD001</td>
-                  <td>2020/2021</td>
-                  <td>1</td>
-                  <td>DBA Oracle</td>
-                  <td>
-                    <Row>12</Row>
-                    <Row>10</Row>
-                  </td>
-                  <td>
-                    <Row>DS</Row>
-                    <Row>Exam</Row>
-                  </td>
-                </tr>
+
+                {this.state.etudiants.map(({ etudiant, notes }, idx) => {
+                  return <tr key={idx}>
+                    <td>{etudiant.matricule}</td>
+                    <td>2020/2021</td>
+                    <td>1</td>
+                    <td>
+                      {notes.map((note, idx) => <Row key={idx}>{note.matiere.nom}</Row>)}
+                    </td>
+                    <td>
+                      {notes.map((note, idx) => <Row key={idx}>{note.note}</Row>)}
+                    </td>
+                    <td>
+                      {notes.map((note, idx) => <Row key={idx}>{note.type_note}</Row>)}
+                    </td>
+                  </tr>
+                })}
 
               </tbody>
               

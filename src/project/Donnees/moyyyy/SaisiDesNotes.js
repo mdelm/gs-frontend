@@ -16,7 +16,7 @@ class SaisiDesNotes extends Component {
       "matiere": "",
       "semestre": "1",
       "type_note": "ds",
-      "annee_universitaire": ""
+      "annee_universitaire": "2020/2021"
     };
 
     this.handleClasseSelectChange = this.handleClasseSelectChange.bind(this);
@@ -86,11 +86,14 @@ class SaisiDesNotes extends Component {
       annee_universitaire: this.state.annee_universitaire,
       note: note,
       etudiant: { _id: etudiant._id },
-      semestre: this.state.semestre
+      semestre: this.state.semestre,
+      classe: this.state.classe
     }));
 
-    axios.post(`http://localhost:3000/classe/addMultipleNotes`, notes)
-      .then(() => console.log("notes sent"));
+    console.log(notes);
+
+    axios.post(`http://localhost:3000/notes/addMultipleNotes`, notes)
+      .then(() => this.props.history.push(`/notes/classe/${this.state.classe}`));
   }
 
   render() {

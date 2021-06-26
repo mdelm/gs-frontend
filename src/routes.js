@@ -209,7 +209,7 @@ const routes = [
  {path : '/TablematiereEnseig', name: 'matiereEnseig', component:TablematiereEnseig},
  {path : '/notes/troisMeilleursEtudiants', name: 'Notes', component:TroisMeilleursEtudiants},
  {path : '/notes/SaisiDesNotes', name: 'Notes', component:SaisiDesNotes},
- {path : '/notes/ClasseNotes', name: 'Notes', component:ClasseNotes},
+ {path : '/notes/classe/:nom_classe', name: 'Notes', component:ClasseNotes},
  {path : '/notes/:nom_etudiant', name: 'Notes', component:notes},
 
 ];
