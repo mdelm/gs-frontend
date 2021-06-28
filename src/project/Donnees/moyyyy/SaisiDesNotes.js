@@ -43,9 +43,17 @@ class SaisiDesNotes extends Component {
   }
 
   fetchEtudiants(classe) {
-    axios.get(`http://localhost:3000/classe/${classe}/etudiants`)
+    axios.get(`http://localhost:3000/notes/classe/${this.state.classe}?annee_universitaire=${this.state.annee_universitaire}&type_note=${this.state.type_note}&nom_matiere=${this.state.nom_matiere}&semestre=${this.state.semestre}`)
       .then(res => {
-        this.setState({ ...this.state, etudiants: res.data.data.map(etudiant => ({ etudiant: etudiant, note: 0})) });
+        this.setState({ ...this.state, etudiants: res.data.data.map(({ etudiant, notes }) => ({ 
+          etudiant: etudiant, 
+          note: (notes.length !== 0) ? notes[0].note : 0
+        })) });
+      }).catch(err => {
+        axios.get(`http://localhost:3000/classe/${classe}/etudiants`)
+        .then(res => {
+          this.setState({ ...this.state, etudiants: res.data.data.map(etudiant => ({ etudiant: etudiant, note: 0})) });
+        });
       });
   }
 
@@ -55,13 +63,16 @@ class SaisiDesNotes extends Component {
       this.fetchMatieres(e.target.value);
       this.fetchEtudiants(e.target.value);
       this.setState({...this.state, classe: e.target.value});
+      this.fetchEtudiants("");
     } else {
       this.setState({...this.state, matieres: [], etudiants: []});
     }
   };
 
   handleMatiereSelectChange(e) {
-    this.setState({...this.state, matiere: e.target.value});
+    const parts = e.target.value.split("-");
+    this.setState({...this.state, matiere: parts[0], nom_matiere: parts[1]});
+    this.fetchEtudiants("");
   }
 
   handleNoteChange(e, idx) {
@@ -73,10 +84,12 @@ class SaisiDesNotes extends Component {
 
   handleSemestreChange(val) {
     this.setState({ ...this.state, semestre: val});
+    this.fetchEtudiants("");
   };
 
   handleTypeNoteChange(val) {
     this.setState({ ...this.state, type_note: val});
+    this.fetchEtudiants("");
   }
 
   handleAddNotes() {
@@ -196,7 +209,7 @@ class SaisiDesNotes extends Component {
                 <Col md="4">
                   <FormGroup>
                     <Input onChange={this.handleMatiereSelectChange} type="select" name="select" id="exampleSelect" style={{width: "80%"}}>
-                      {this.state.matieres.map((matiere, idx) => <option key={idx} value={matiere._id}>{matiere.nom}</option>)}
+                      {this.state.matieres.map((matiere, idx) => <option key={idx} value={`${matiere._id}-${matiere.nom}`}>{matiere.nom}</option>)}
                     </Input>
                   </FormGroup>
                 </Col>
