@@ -75,35 +75,10 @@ class ClasseNotes extends Component {
                     })}
 
                   </tbody>
-
-                  {/*return <tr key={idx}>
-                    <td>{etudiant.matricule}</td>
-                    <td>2020/2021</td>
-
-
-                    <td>1</td>
-                    <td>
-                      {notes.map((note, idx) => <Row key={idx}>{note.matiere.nom}</Row>)}
-                    </td>
-                    <td>
-                      {notes.map((note, idx) => <Row key={idx}>{note.note}</Row>)}
-                    </td>
-                    <td>
-                      {notes.map((note, idx) => <Row key={idx}>{note.type_note}</Row>)}
-                    </td>
-                  </tr>*/}
                 })}
-
-                {/*<tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td colSpan={3}>
-                    <Button color="primary" block onClick={this.handleCalculerMoyenneGenerale}>Calculer La Moyenne Generale</Button>
-                  </td>
-                </tr>*/}
               
             </Table>
+            <Button color="primary" block onClick={this.handleCalculerMoyenneGenerale}>Calculer La Moyenne Generale</Button>
 
             
 				  </Col>

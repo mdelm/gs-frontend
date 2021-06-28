@@ -2,21 +2,21 @@ import React, { Component, useState, useEffect } from 'react';
 import { FormGroup, Label, Input, Table, Row, Col, Container, Button } from "reactstrap";
 import "./notes.css";
 import axios from "axios";
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
-const MoyenneGenerale = (props) => {
+const ListeEtudiantsRachte = (props) => {
 
   const [ etudiants, setEtudiants ] = useState([]);
-  const [ etudiantsRachte, setEtudiantsRachte ] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/notes/moyenneGenerale/${props.match.params.nom_classe}`)
+    axios.get(`http://localhost:3000/notes/classe/${props.match.params.nom_classe}/listeEtudiantsRachte?annee_universitaire=2020/2021`)
       .then(res => {
         setEtudiants(res.data.data);
       });
   });
 
   const handleListeEtudiantsRachteClick = () => {
-    props.history.push(`/notes/classe/${props.match.params.nom_classe}/ListeEtudiantsRachte`);
+    // Export PDF 
   }
 
   const inputStyle = {width: "100%", border: "1px solid gray"};
@@ -43,21 +43,23 @@ const MoyenneGenerale = (props) => {
             
             <tbody>
 
-              {etudiants.map((etud, idx) => {
+              {etudiants.map(({ etudiant, note_semestre1, note_semestre2, moyenne_generale, deliberation }, idx) => {
                 return <tr key={idx}>
-                  <td>{etud.matricule}</td>
-                  <td>{etud.nom}</td>
-                  <td>{etud.prenom}</td>
+                  <td>{etudiant.matricule}</td>
+                  <td>{etudiant.nom}</td>
+                  <td>{etudiant.prenom}</td>
                   <td>2020/2021</td>
-                  <td>{etud.note_semestre1}</td>
-                  <td>{etud.note_semestre2}</td>
-                  <td>{etud.moyenne_generale}</td>
+                  <td>{note_semestre1}</td>
+                  <td>{note_semestre2}</td>
+                  <td>{moyenne_generale}</td>
                 </tr>
               })}
 
             </tbody>
             
           </Table>
+
+          
         </Col>
       </Row>
     </Container>
@@ -67,4 +69,4 @@ const MoyenneGenerale = (props) => {
 
 
 
-export default MoyenneGenerale;
+export default ListeEtudiantsRachte;
