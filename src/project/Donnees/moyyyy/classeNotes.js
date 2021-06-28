@@ -53,10 +53,30 @@ class ClasseNotes extends Component {
                 </tr>
               </thead>
               
-              <tbody>
 
                 {this.state.etudiants.map(({ etudiant, notes }, idx) => {
-                  return <tr key={idx}>
+                  const sem1Count = notes.filter(note => note.semestre === "1").length;
+                  const sem2Count = notes.filter(note => note.semestre === "2").length;
+                  const notesCount = sem1Count + sem2Count;
+
+                  return <tbody>
+                    {notes.map((note, n) => {
+
+                      return <tr>
+                        { (n === 0) ? <td rowSpan={sem1Count + sem2Count}>{etudiant.matricule}</td> : "" }
+                        { (n === 0) ? <td rowSpan={sem1Count + sem2Count}>{note.annee_universitaire}</td> : "" }
+                        { (n === 0 && note.semestre === "1") ? <td rowSpan={sem1Count}>{note.semestre}</td> : "" }
+                        { (n === sem1Count && note.semestre === "2") ? <td rowSpan={sem2Count}>{note.semestre}</td> : "" }
+                        <td>{note.matiere.nom}</td>
+                        <td>{note.note}</td>
+                        <td>{note.type_note}</td>
+                      </tr>
+
+                    })}
+
+                  </tbody>
+
+                  {/*return <tr key={idx}>
                     <td>{etudiant.matricule}</td>
                     <td>2020/2021</td>
 
@@ -71,19 +91,17 @@ class ClasseNotes extends Component {
                     <td>
                       {notes.map((note, idx) => <Row key={idx}>{note.type_note}</Row>)}
                     </td>
-                  </tr>
+                  </tr>*/}
                 })}
 
-                <tr>
+                {/*<tr>
                   <td></td>
                   <td></td>
                   <td></td>
                   <td colSpan={3}>
                     <Button color="primary" block onClick={this.handleCalculerMoyenneGenerale}>Calculer La Moyenne Generale</Button>
                   </td>
-                </tr>
-
-              </tbody>
+                </tr>*/}
               
             </Table>
 
