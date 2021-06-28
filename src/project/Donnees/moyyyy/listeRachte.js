@@ -2,7 +2,6 @@ import React, { Component, useState, useEffect } from 'react';
 import { FormGroup, Label, Input, Table, Row, Col, Container, Button } from "reactstrap";
 import "./notes.css";
 import axios from "axios";
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 const ListeEtudiantsRachte = (props) => {
 
