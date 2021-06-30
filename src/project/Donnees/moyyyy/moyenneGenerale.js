@@ -38,6 +38,7 @@ const MoyenneGenerale = (props) => {
                 <th>Note Semestre 1</th>
                 <th>Note Semestre 2</th>
                 <th>Moyenne Generale</th>
+                <th>Deliberation</th>
               </tr>
             </thead>
             
@@ -45,13 +46,14 @@ const MoyenneGenerale = (props) => {
 
               {etudiants.map((etud, idx) => {
                 return <tr key={idx}>
-                  <td>{etud.matricule}</td>
-                  <td>{etud.nom}</td>
-                  <td>{etud.prenom}</td>
+                  <td>{etud.etudiant.matricule}</td>
+                  <td>{etud.etudiant.nom}</td>
+                  <td>{etud.etudiant.prenom}</td>
                   <td>2020/2021</td>
                   <td>{etud.note_semestre1}</td>
                   <td>{etud.note_semestre2}</td>
                   <td>{etud.moyenne_generale}</td>
+                  <td>{etud.deliberation}</td>
                 </tr>
               })}
 
