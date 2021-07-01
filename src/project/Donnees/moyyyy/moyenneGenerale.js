@@ -2,6 +2,9 @@ import React, { Component, useState, useEffect } from 'react';
 import { FormGroup, Label, Input, Table, Row, Col, Container, Button } from "reactstrap";
 import "./notes.css";
 import axios from "axios";
+import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
+import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import { saveAs } from "file-saver";
 
 const MoyenneGenerale = (props) => {
 
@@ -15,8 +18,49 @@ const MoyenneGenerale = (props) => {
       });
   });
 
-  const handleListeEtudiantsRachteClick = () => {
-    props.history.push(`/notes/classe/${props.match.params.nom_classe}/ListeEtudiantsRachte`);
+  const downloadFile = (data, filename = "download") => {
+    if (!(data instanceof Blob)) return;
+
+    const blob = new Blob([data], { type: "application/pdf" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `${filename}-${+new Date()}.pdf`;
+    link.click();
+  };
+
+  const openFileInNewTab = (data, filename = "download") => {
+    if (!(data instanceof Blob)) return;
+
+    const blob = new Blob([data], { type: "application/pdf" });
+
+    const fileUrl = URL.createObjectURL(blob);
+    const w = window.open(fileUrl, "_blank");
+    w && w.focus();
+  };
+
+  const handleDownloadPdf = () => {
+    axios.post(`http://localhost:3000/f/createListeEtudiantsRachte/${props.match.params.nom_classe}?annee_universitaire=2020/2021`, {})
+      .then(() => {
+        axios.get(`http://localhost:3000/f/getListeEtudiantsRachte/${props.match.params.nom_classe}?annee_universitaire=2020/2021`, {
+          responseType: "blob",
+          headers: {
+            Accept: "application/octet-stream"
+          }
+        }).then(response => downloadFile(response.data))
+        .catch(err => {
+          console.log(err);
+        });
+      });
+  };
+
+  const handleSendEmail = () => {
+    axios.post(`http://localhost:3000/f/sendListeEtudiantsRachte/${props.match.params.nom_classe}?annee_universitaire=2020/2021`)
+      .then(() => {
+        console.log("Email send successfully");
+      })
+      .catch((err) => {
+        console.log("Unable to send mail");
+      });
   }
 
   const inputStyle = {width: "100%", border: "1px solid gray"};
@@ -58,8 +102,12 @@ const MoyenneGenerale = (props) => {
               })}
 
             </tbody>
-            
           </Table>
+
+          Liste Des Etudiants Rachté: 
+          <Button color="primary" className="ml-2" onClick={handleDownloadPdf}><GetAppRoundedIcon /> Download PDF</Button>
+          <Button color="success" className="ml-2" onClick={handleSendEmail}><SendRoundedIcon /> Send</Button>
+
         </Col>
       </Row>
     </Container>
