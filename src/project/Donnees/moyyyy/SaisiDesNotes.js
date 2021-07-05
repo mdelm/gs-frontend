@@ -35,8 +35,8 @@ class SaisiDesNotes extends Component {
       });
   }
 
-  fetchMatieres(classe) {
-    axios.get(`http://localhost:3000/classe/${classe}/matieres`)
+  fetchMatieres(classe, semestre) {
+    axios.get(`http://localhost:3000/classe/${classe}/matieres?semestre=${semestre}`)
       .then(res => {
         this.setState({ ...this.state, matieres: res.data.data });
       });
@@ -60,10 +60,10 @@ class SaisiDesNotes extends Component {
   handleClasseSelectChange(e) {
     this.setState({...this.state, matiere: ""});
     if (e.target.value !== "---") {
-      this.fetchMatieres(e.target.value);
+      this.fetchMatieres(e.target.value, this.state.semestre);
       this.fetchEtudiants(e.target.value);
       this.setState({...this.state, classe: e.target.value});
-      this.fetchEtudiants("");
+      // this.fetchEtudiants("");
     } else {
       this.setState({...this.state, matieres: [], etudiants: []});
     }
@@ -85,6 +85,9 @@ class SaisiDesNotes extends Component {
   handleSemestreChange(val) {
     this.setState({ ...this.state, semestre: val});
     this.fetchEtudiants("");
+    if (this.state.classe !== "") {
+      this.fetchMatieres(this.state.classe, val);
+    }
   };
 
   handleTypeNoteChange(val) {

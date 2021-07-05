@@ -41,7 +41,7 @@ class ClasseNotes extends Component {
         </div>
         <Row>
           <Col>
-            <Table>
+            <Table className="classe-notes">
               <thead>
                 <tr>
                   <th>Matricule</th>
