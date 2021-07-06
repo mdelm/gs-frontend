@@ -101,6 +101,8 @@ const ClasseNotes = React.lazy(()=>import('./project/Donnees/moyyyy/classeNotes'
 const MoyenneGenerale = React.lazy(()=>import('./project/Donnees/moyyyy/moyenneGenerale'))
 const ListeEtudiantsRachte = React.lazy(()=>import('./project/Donnees/moyyyy/listeRachte'))
 
+const StageMenu = React.lazy(() => import("./project/Donnees/Stage/StageMenu"));
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -215,6 +217,8 @@ const routes = [
  {path : '/notes/classe/:nom_classe', name: 'Notes', component:ClasseNotes},
  {path : '/notes/moyenneGenerale/:nom_classe', name: 'Notes', component:MoyenneGenerale},
  {path : '/notes/:nom_etudiant', name: 'Notes', component:notes},
+
+ { path: "/stages", name: "Stages", component: StageMenu}
 
 ];
 
