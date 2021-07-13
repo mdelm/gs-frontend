@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -19,15 +19,13 @@ const Register = React.lazy(() => import('./views/pages/register/Register'));
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
 const index = React.lazy(() => import('./views/pages/home/index'))
-const ColonneMatieres = React.lazy(() => import('./project/Donnees/noteMoyenne/ColonneMatieres'))
-const LigneModule = React.lazy(() => import('./project/Donnees/noteMoyenne/LigneModule'))
 
 
 class App extends Component {
 
   render() {
     return (
-      <Router>
+      <HashRouter>
           <React.Suspense fallback={loading}>
             <Switch>
               <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
@@ -38,12 +36,10 @@ class App extends Component {
               <Route exact path="/index" name="index" render={props => <index {...props}/>} />
               
 
-              <Route exact path="/ColonneMatieres" name="ColonneMatieres" render={props => <ColonneMatieres {...props}/>} />
-              <Route exact path="/LigneModule" name="LigneModule" render={props => <LigneModule {...props}/>} />
              
             </Switch> 
           </React.Suspense>
-      </Router>
+      </HashRouter>
     );
   }
 }

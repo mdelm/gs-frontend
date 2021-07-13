@@ -42,10 +42,16 @@ export const nav_etudiant =  [{
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'voir notes',
-        to: '/attestation',
+        name: 'MOYENNE ',
+        to: '/notes/:nom_etudiant',
+        icon: 'cil-people',
       },
-      
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'STAGES',
+        to: '/stages',
+        icon: 'cil-people',
+      }
     ]
   },
  
@@ -266,12 +272,7 @@ export const nav_admin =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'moyenne',
-        to: '/notes/addNote'
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'rend',
-        to: '/troisMeilleursEtudiants'
+        to: '/notes/SaisiDesNotes'
       },
     
     ]

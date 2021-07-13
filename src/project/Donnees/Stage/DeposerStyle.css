@@ -1,0 +1,18 @@
+.deposer {
+	margin: 36px 36px 0 36px;
+	padding: 10px;
+}
+
+.section-title {
+	border: none;
+	border-left: 3px solid brown;
+	padding: 0;
+	padding-left: 6px;
+	color: darkblue;
+}
+
+.label-required::after {
+	content: "*";
+	font-weight: bold;
+	color: red;
+}

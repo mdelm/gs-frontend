@@ -7,6 +7,7 @@ import {
   CSidebarNav,
   CSidebarNavDivider,
   CSidebarNavTitle,
+  CSidebarMinimizer,
   CSidebarNavDropdown,
   CSidebarNavItem,
 } from '@coreui/react'
@@ -16,6 +17,7 @@ import {nav_admin, nav_etudiant, nav_enseignant} from './_nav'
 
 // sidebar nav config
 
+import TheSidebarStyle from './THeSidebarStyle.css'
 const TheSidebar = () => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.sidebarShow)
@@ -25,7 +27,7 @@ const TheSidebar = () => {
   useEffect(()=> {
     switch (localStorage.getItem('role')) {
       case "admin": setNavigation(nav_admin) ;break;
-      case "etuds" : setNavigation(nav_etudiant) ; break;
+      case "etudiant" : setNavigation(nav_etudiant) ; break;
       case "enseignant" : setNavigation(nav_enseignant) ; break;
       default:
         break;

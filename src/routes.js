@@ -102,6 +102,8 @@ const MoyenneGenerale = React.lazy(()=>import('./project/Donnees/moyyyy/moyenneG
 const ListeEtudiantsRachte = React.lazy(()=>import('./project/Donnees/moyyyy/listeRachte'))
 
 const StageMenu = React.lazy(() => import("./project/Donnees/Stage/StageMenu"));
+const FormulaireDemendeDeStage = React.lazy(() => import("./project/Donnees/Stage/FormulaireDemendeDeStage"));
+const Deposer = React.lazy(() => import("./project/Donnees/Stage/Deposer"));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -218,7 +220,10 @@ const routes = [
  {path : '/notes/moyenneGenerale/:nom_classe', name: 'Notes', component:MoyenneGenerale},
  {path : '/notes/:nom_etudiant', name: 'Notes', component:notes},
 
- { path: "/stages", name: "Stages", component: StageMenu}
+ { path: "/stages/formulaireDemendeDeStage", name: "Formulaire Demende de Stage", component: FormulaireDemendeDeStage },
+ { path: "/stages/deposer", name:"Deposer Stage", component: Deposer },
+ { path: "/stages", name: "Stages", component: StageMenu }
+ 
 
 ];
 
