@@ -6,12 +6,6 @@ import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
 import { saveAs } from "file-saver";
 import axios from "axios";
 
-/*
-harrabi mokhtar
-bassma bn salah
-yassin kachoukh
-*/
-
 const FormulaireDemendeDeStage = (props) => {
 
 	const [ user, setUser ] = useState(null);
