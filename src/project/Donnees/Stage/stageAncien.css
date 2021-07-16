@@ -1,0 +1,42 @@
+.stage-ancien {
+	margin: 36px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.pane {
+	padding: 26px;
+}
+
+.date-de-cloture {
+	border: 1px solid #E5F1FB;
+	border-radius: 8px;
+	position: relative;
+}
+
+.date-de-cloture .fa-caret-left {
+	color: white;
+	font-size: 42px;
+	position: absolute;
+	top: 22px;
+	left: 188px;
+}
+
+.date-label {
+	background: red;
+	width: 200px;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	padding: 20px 32px;
+	border-radius: 8px 0px 0px 8px;
+}
+
+.date-de-cloture .dt {
+	position: absolute;
+	top: 30px;
+	left: 230px;
+	font-weight: bold;
+}

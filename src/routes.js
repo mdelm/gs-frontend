@@ -105,6 +105,7 @@ const StageMenu = React.lazy(() => import("./project/Donnees/Stage/StageMenu"));
 const FormulaireDemendeDeStage = React.lazy(() => import("./project/Donnees/Stage/FormulaireDemendeDeStage"));
 const Deposer = React.lazy(() => import("./project/Donnees/Stage/Deposer"));
 const Entreprise = React.lazy(() => import("./project/Donnees/Stage/Entreprise"));
+const StageAncien = React.lazy(() => import("./project/Donnees/Stage/StageAncien"));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -224,8 +225,8 @@ const routes = [
  { path: "/stages/formulaireDemendeDeStage", name: "Formulaire Demende de Stage", component: FormulaireDemendeDeStage },
  { path: "/stages/deposer", name:"Deposer Stage", component: Deposer },
  { path: "/stages/entreprises", name:"Entreprise", component: Entreprise },
+ { path: "/stages/ancien", name: "Stage Ancien", component: StageAncien },
  { path: "/stages", name: "Stages", component: StageMenu }
- 
 
 ];
 
