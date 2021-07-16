@@ -40,7 +40,7 @@ const StageMenu = (props) => {
 							<ul style={ulStyle}>
 								<LILink to="/stages" label="Journal de Stage" />
 								<LILink to="/stages/formulaireDemendeDeStage" label="Formulaire demende de stage" />
-								<LILink to="/stages" label="Liste des soutenances" />
+								<LILink to="/stages/soutenance" label="Liste des soutenances" />
 								<LILink to="/stages" label="Archive des stages" />
 							</ul>
 						</Col>
