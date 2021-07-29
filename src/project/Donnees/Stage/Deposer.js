@@ -121,10 +121,12 @@ const Deposer = (props) => {
 			fax_entreprise: faxEntreprise,
 			telephone_entreprise: telephoneEntreprise,
 			email_entreprise: emailEntreprise,
+			type_stage: props.match.params.type_stage,
 			encadrant_professionnel: encadrantProfessionnel,
 			email_encadrant_professionnel: emailEncadrantProfessionnel,
 			encadrant_universitaire_principale: encadrantUniversitairePrincipale,
-			co_encadreur: coEncadrant.map(enseiId => ({ _id: enseiId }))
+			co_encadreur: coEncadrant.map(enseiId => ({ _id: enseiId })),
+			soutenance: null
 		};
 		axios.post(`http://localhost:3000/stages/createStage`, stage)
 			.then(response => {

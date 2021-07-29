@@ -40,14 +40,14 @@ const StageMenu = (props) => {
 							<ul style={ulStyle}>
 								<LILink to="/stages" label="Journal de Stage" />
 								<LILink to="/stages/formulaireDemendeDeStage" label="Formulaire demende de stage" />
-								<LILink to="/stages/soutenance" label="Liste des soutenances" />
+								<LILink to="/stages/listeSoutenances" label="Liste des soutenances" />
 								<LILink to="/stages" label="Archive des stages" />
 							</ul>
 						</Col>
 						<Col md="5">
 							<ul style={ulStyle}>
 								<LILink to="/stages" label="Procédure de stage" />
-								<LILink to="/stages/deposer" label="Déposer stage" />
+								<LILink to="/stages/deposer/obligatoire" label="Déposer stage" />
 								<LILink to="/stages/entreprises" label="Liste des entrepries" />
 								<LILink to="/stages/ancien" label="Déposer un ancien stage" />
 							</ul>
@@ -63,13 +63,13 @@ const StageMenu = (props) => {
 						<Col md="5">
 							<ul style={ulStyle}>
 								<LILink to="/stages" label="Procédure de stage" />
-								<LILink to="/stages" label="Dépot du stage" />
-								<LILink to="/stages" label="Liste des entrepries" />
+								<LILink to="/stages/deposer/facultatif" label="Dépot du stage" />
+								<LILink to="/stages/entreprises" label="Liste des entrepries" />
 							</ul>
 						</Col>
 						<Col md="5">
 							<ul style={ulStyle}>
-								<LILink to="/stages" label="Formulaire demende de stage" />
+								<LILink to="/stages/formulaireDemendeDeStage" label="Formulaire demende de stage" />
 								<LILink to="/stages" label="Lettre d'affictation" />
 							</ul>
 						</Col>

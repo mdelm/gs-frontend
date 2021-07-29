@@ -6,14 +6,14 @@ import axios from "axios";
 
 const DetailSoutenance = (props) => {
 	const [ user, setUser ] = useState(null);
-	const [ soutenance, setSoutenance ] = useState(null);
+	const [ stage, setStage ] = useState(null);
 
 	useEffect(() => {
 		getOneUser();
 	}, []);
 
 	useEffect(() => {
-		if (user !== null) fetchSoutenance();
+		if (user !== null) fetchStage();
 	}, [user]);
 
 	const getOneUser = () => {
@@ -25,10 +25,10 @@ const DetailSoutenance = (props) => {
 	    });
 	};
 
-	const fetchSoutenance = () => {
-		axios.get(`http://localhost:3000/soutenances/getSoutenanceByEtudiant/${user._id}`)
+	const fetchStage = () => {
+		axios.get(`http://localhost:3000/stages/getStage/${props.match.params.stage_id}`)
 			.then(response => {
-				setSoutenance(response.data.data);
+				setStage(response.data.data);
 			});
 	};
 
@@ -44,19 +44,19 @@ const DetailSoutenance = (props) => {
 					<tbody>
 						<tr>
 							<td><strong>Sujet ou poste</strong></td>
-							<td>{ soutenance && soutenance.stage.sujet }</td>
+							<td>{ stage && stage.sujet }</td>
 						</tr>
 						<tr>
 							<td><strong>Date de soutenance</strong></td>
-							<td>{ soutenance && soutenance.date_de_soutenance }</td>
+							<td>{ stage && stage.soutenance.date_de_soutenance }</td>
 						</tr>
 						<tr>
 							<td><strong>Salle</strong></td>
-							<td>{ soutenance && soutenance.salle.nom }</td>
+							<td>{ stage && stage.soutenance.salle.nom }</td>
 						</tr>
 						<tr>
 							<td><strong>Jurys</strong></td>
-							<td>{ soutenance && soutenance.jurys.map(jury => <Badge className="mr-2" color="warning">{`${jury.nom} ${jury.prenom}`}</Badge>) }</td>
+							<td>{ stage && stage.soutenance.jurys.map(jury => <Badge className="mr-2" color="warning">{`${jury.nom} ${jury.prenom}`}</Badge>) }</td>
 						</tr>
 						<tr>
 							<td><strong>Rapport PDF</strong></td>

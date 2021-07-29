@@ -49,7 +49,7 @@ const FormulaireDemendeDeStage = (props) => {
   const handleDownloadPdf = () => {
     axios.post(`http://localhost:3000/f/createFormulaireDemandeDeStage/?etudiant=${user.nom} ${user.prenom}&annee=2020/2021&classe=${classe.nom_classe}&societe=${societe}`, {})
       .then(() => {
-        axios.get(`http://localhost:3000/f/createFormulaireDemandeDeStage/?etudiant=${user.nom} ${user.prenom}&annee=2020/2021&classe=${classe.nom_classe}&societe=${societe}`, {
+        axios.get(`http://localhost:3000/f/fetchFormulaireDemandeDeStage/?etudiant=${user.nom} ${user.prenom}&annee=2020/2021&classe=${classe.nom_classe}&societe=${societe}`, {
           responseType: "blob",
           headers: {
             Accept: "application/octet-stream"
@@ -150,7 +150,7 @@ const FormulaireDemendeDeStage = (props) => {
 						</Row>
 						<br/>
 						<Button onClick={handleDownloadPdf} color="success" className="mt-4">
-							<GetAppRoundedIcon /> Telecharger PDF
+							<GetAppRoundedIcon /> Enyoyer et Telecharger PDF
 						</Button>
 						<br/>
 					</div>
