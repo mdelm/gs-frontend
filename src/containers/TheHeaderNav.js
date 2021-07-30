@@ -1,16 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CHeader,
 } from '@coreui/react'
-
-
+import userController from '../project/services/Controllers/userController';
 import TheHeaderNavStyle from "./TheHeaderNavStyle.css"
 
 
 const TheHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector(state => state.sidebarShow)
+
+  const [ user, setUser ] = useState(null);
+
+  useEffect(() => {
+    getOneUser();
+  }, []);
+
+  const getOneUser = () => {
+    const userCtrl = new userController();
+    userCtrl.getoneUserById(localStorage.getItem('iduser'))
+      .then(response => {
+        console.log('response from get one user by id', response);
+        setUser(response.data.data);
+      });
+  };
 
  /* const toggleSidebar = () => {
     const val = [true, 'responsive'].includes(sidebarShow) ? false : 'responsive'
@@ -27,7 +41,15 @@ const TheHeader = () => {
     <CHeader withSubheader 
     style={{background:"#FFCC00"}}>
         <div className="NavTitle">
-            <div><p>Systeme Scolaire</p></div>
+            <div><p>
+            { 
+              user 
+              ?
+              `${user.nom} ${user.prenom}`
+              :
+              `Systeme Scolaire`
+            }
+            </p></div>
         </div>
     
     </CHeader>
