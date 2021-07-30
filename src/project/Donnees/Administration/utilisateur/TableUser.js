@@ -57,8 +57,8 @@ class TableUser extends Component {
                                         <tr>
                                            
                                             <td>{item.matricule}</td>
-                                            
-                                            <td>{item.password}</td>
+                                            <td>**********</td>
+                                            {/* <td>{item.password}</td> */}
                                             <td>{item.__t}</td>
 
     
