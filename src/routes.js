@@ -223,7 +223,7 @@ const routes = [
  {path : '/notes/classe/:nom_classe/ListeEtudiantsRachte', name: 'Notes', component:ListeEtudiantsRachte},
  {path : '/notes/classe/:nom_classe', name: 'Notes', component:ClasseNotes},
  {path : '/notes/moyenneGenerale/:nom_classe', name: 'Notes', component:MoyenneGenerale},
- {path : '/notes/:nom_etudiant', name: 'Notes', component:notes},
+ {path : '/notes', name: 'Notes', component:notes},
 
  { path: "/stages/formulaireDemendeDeStage", name: "Formulaire Demende de Stage", component: FormulaireDemendeDeStage },
  { path: "/stages/deposer/:type_stage", name:"Deposer Stage", component: Deposer },

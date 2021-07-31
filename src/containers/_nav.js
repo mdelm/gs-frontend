@@ -78,7 +78,7 @@ export const nav_etudiant =  [{
       {
         _tag: 'CSidebarNavItem',
         name: 'MOYENNE ',
-        to: '/notes/:nom_etudiant',
+        to: '/notes',
         icon: 'cil-people',
       },
     
