@@ -45,7 +45,7 @@ const TheHeader = () => {
             { 
               user 
               ?
-              `${user.nom} ${user.prenom}`
+              <><i className="fa fa-user ml-2"/> {`${user.nom} ${user.prenom}`}</>
               :
               `Systeme Scolaire`
             }
