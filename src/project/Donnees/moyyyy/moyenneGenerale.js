@@ -105,7 +105,7 @@ const MoyenneGenerale = (props) => {
           </Table>
 
           Liste Des Etudiants Rachté: 
-          <Button color="primary" className="ml-2" onClick={handleDownloadPdf}><GetAppRoundedIcon /> Download PDF</Button>
+          <Button color="info" className="ml-2" onClick={handleDownloadPdf}><GetAppRoundedIcon /> Download PDF</Button>
           <Button color="success" className="ml-2" onClick={handleSendEmail}><SendRoundedIcon /> Send</Button>
 
         </Col>

@@ -78,7 +78,7 @@ class ClasseNotes extends Component {
                 })}
               
             </Table>
-            <Button color="primary" block onClick={this.handleCalculerMoyenneGenerale}>Calculer La Moyenne Generale</Button>
+            <Button color="info" block onClick={this.handleCalculerMoyenneGenerale}>Calculer La Moyenne Generale</Button>
 
             
 				  </Col>

@@ -246,7 +246,7 @@ class SaisiDesNotes extends Component {
                   <td></td>
                   <td></td>
                   <td>
-                    <Button color="primary" block onClick={this.handleAddNotes}>OK</Button>
+                    <Button color="info" block onClick={this.handleAddNotes}>OK</Button>
                   </td>
                 </tr>
               </tbody>
