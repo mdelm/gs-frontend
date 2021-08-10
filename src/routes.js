@@ -54,6 +54,7 @@ const TableEnseignant = React.lazy(() => import('./project/Donnees/Enseignant/Ta
 const AddEnseignant = React.lazy(() => import ('./project/Donnees/Enseignant/AddEnseignant'));
 const UpdateEnseignant = React.lazy(() => import ('./project/Donnees/Enseignant/UpdateEnseignant'));
 
+const TableClasse = React.lazy(() => import("./project/Donnees/Classe/TableClasse"));
 
 const TableDepartement = React.lazy(() => import('./project/Donnees/Departement/TableDepartement'));
 const AddDepartement = React.lazy(() => import ('./project/Donnees/Departement/AddDepartement'));
@@ -160,6 +161,9 @@ const routes = [
   {path : '/donnee/TableEtudiant', name: 'Etudiant', component:TableEtudiant},
   {path : '/AddEtudiant', name: 'Create Etudiant', component:AddEtudiant},
   {path : '/UpdateEtudiant', name: 'update Etudiant', component:UpdateEtudiant}, 
+
+
+  {path : '/donnee/TableClasse', name: 'Classe', component: TableClasse},
 
 
   { path: '/donnee', name: 'Donnee', exact: true },

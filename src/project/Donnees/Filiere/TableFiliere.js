@@ -1,180 +1,196 @@
-import React, { Component } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import axios from "axios"
-import filiereController from '../../services/Controllers/filiereController'
+import filiereController from '../../services/Controllers/filiereController';
 import PageHeader from "../../components/PageHeader";
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 import Controls from "../../components/controls/Controls";
 import AddIcon from '@material-ui/icons/Add';
-import AddFiliere from './AddFiliere'
-import {Button,Modal} from 'react-bootstrap'
-import UpdateFiliere from './UpdateFiliere'
+import "./TableFiliereStyle.css";
+import {
+  Table,
+  Modal, 
+  ModalHeader, 
+  ModalBody,
+  Input,
+  Row,
+  Col,
+  Button,
+  Alert
+} from "reactstrap";
 
+const TableFiliere = props => {
+  const [ filieres, setFilieres ] = useState([]);
 
-class TableFiliere extends Component {
+  const [ modal, setModal ] = useState(false);
 
-      handleClick(evt){
-        evt.preventDefault()
-        console.log('errr');
-    }
+  const [ filiereId, setFiliereId ] = useState(null);
+  const [ modalTitle, setModalTitle ] = useState(null);
+  const [ modalBtnText, setModalBtnText ] = useState(null);
 
-    constructor(){
-        super()
-        this.state={
-            Filieres:[],
-            item1:{},
-            show1:false
-        }
-        this.filiereController = new filiereController()
-    }
-    handleClose = (e) => {this.setState({show1:false})};
-    handleShow = (e) => {this.setState({show1:true})};
-    componentDidMount(){
-        this.getAllFiliere()
+  const [ nom, setNom ] = useState("");
+  const [ niveau, setNiveau ] = useState("");
 
-    }
-    getAllFiliere(){
-        axios.get('http://localhost:3000/filiere/findfiliere').then(response=>{
-            console.log('response',response.data.data);
-           
-           this. setState({Filieres:response.data.data})
-            
-        })
-    }
+  const [ searchTerm, setSearchTerm ] = useState("");
 
-    update(id){
-        localStorage.setItem('idFiliere',id)
-    }
-    delete(id){
-       this.filiereController.delete(id).then(response=>{
-        console.log('response from delete filiere',response);
-        window.location.reload()
+  useEffect(() => {
+    getAllFilieres();
+  }, []);
 
-       })
-    }
-    
+  const getAllFilieres = () => {
+    axios.get('http://localhost:3000/filiere/findfiliere')
+      .then(response => {
+        setFilieres(response.data.data);
+      });
+  };
 
-    state = {
-        show: false,
-        showUpdate:false,
-        showdelete:false
-        
+  const toggle = (_item, _title, _btn_text) => {
+    setModal(!modal);
+    setModalTitle(_title);
+    setModalBtnText(_btn_text);
 
+    console.log(_item);
 
-      };
-      showModal = e => {
-        this.setState({
-          show: true
-        });
+    setFiliereId( _item !== null ? _item._id : null);
+    setNom( _item !== null ? _item.nom_filiere : "" );
+    setNiveau( _item !== null ? _item.niveau : "");
+  };
 
-      };
-      closeModal = ()=> {
-        this.setState({
-          show:false
-        })
-      }
-      showModalUpdate = e => {
-        this.setState({
-          showUpdate: true
-        });
-        
-      };
-      showModaldelete = e => {
-        this.setState({
-          showdelete: true
-        });
-      };
-    render(){
+  const addFiliere = () => {
+    const data = { 
+        nom_filiere: nom,
+        niveau: niveau
+    };
+    axios.post('http://localhost:3000/filiere/addfiliere', data)
+      .then(response => {
+        getAllFilieres();
+        toggle(null, null, null);
+      });
+  };
 
-    return (
-      
-      
-        <div>
-        <div> 
+  const updateFiliere = () => {
+    const data = { 
+        nom_filiere: nom,
+        niveau: niveau
+    };
+    axios.put(`http://localhost:3000/filiere/updatefiliereMatiere/${filiereId}`, data)
+      .then(response => {
+        getAllFilieres();
+        toggle(null, null, null);
+      });
+  };
+
+  const deleteFiliere = (_id) => {
+    axios.delete(`http://localhost:3000/filiere/filieredeleteById/${_id}`)
+      .then(response => {
+        getAllFilieres();
+      });
+  };
+
+  return (
+    <div>
+      <Modal isOpen={modal} toggle={() => toggle(null, null, null)} size="lg">
+        <ModalHeader toggle={() => toggle(null, null, null)} style={{backgroundColor:"#FFCC00"}}>
+          <div id="contained-modal-title-vcenter">
+            <h1 style={{color:"black", fontSize:"40px", fontWeight:"35px"}}>{modalTitle}</h1>
+          </div>
+        </ModalHeader>
+        <ModalBody>     
+          <form>
+            <div class="group">
+                <label><i class="fa fa-user"></i> </label>
+                <input 
+                  type="text" 
+                  placeholder="Nom" 
+                  style={{marginLeft:"25px"}}
+                  onChange={e => setNom(e.target.value)} value={nom}/>
+                <span class="highlight"style={{marginLeft:"25px"}} />
+                <span class="bar" style={{marginLeft:"25px"}}></span>
+            </div>
+            <div class="group">
+                <label><i class="fa fa-user"></i> </label>
+                <input 
+                  type="text" 
+                  placeholder="Niveau" 
+                  style={{marginLeft:"25px"}}
+                  onChange={e => setNiveau(e.target.value)} value={niveau}/>
+                <span class="highlight"style={{marginLeft:"25px"}} />
+                <span class="bar" style={{marginLeft:"25px"}}></span>
+            </div>
+            <button
+              type="button" 
+              class="button buttonBlue" 
+              style={{color:"black"}}
+              onClick={() => {
+                if (filiereId !== null)
+                  updateFiliere();
+                else
+                  addFiliere();
+              }}
+            >
+              {modalBtnText}
+              <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+            </button>
+          </form>
+        </ModalBody>
+      </Modal>
+      <div> 
         <PageHeader
-            title="Filiere"
-            subTitle="gestion des Filieres"
-            icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
+          title="Filiere"
+          subTitle="gestion des filiere"
+          icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
         />
-        <Controls.Button1
-            text="Add New"
-            variant="outlined"
-            startIcon={<AddIcon />}
-            style={{left:'930px',
-            bottom:'110px',
-            color:'black',
-            border: '1px solid black'}}
-            variant="primary" onClick={e => {this.showModal(e);}}
-        />
-        
-      <AddFiliere
-        show={this.state.show}
-        onClose={() => this.showModal()}
-      />
-      <UpdateFiliere
-              show={this.state.showUpdate}
-              onClose={() => this.showModalUpdate()}
-              item1={this.state.item1}
-      />
-      <deleteFiliere
-      
-        show={this.state.showdelete}
-        onClose={() => this.showModaldelete()}
-      />
-        </div>
-        <div>
-        <div>
-                            <table class="table">
-                            <thead>
-                                <tr>
-                                <th scope="col">Action</th>
-                                <th scope="col">Nom de Filiere</th>
-                                <th scope="col">Niveau</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {
-                            
-                            this.state.Filieres?.map((item)=>{
-                                                  
-                                return(
-                                    <tr>
-                                        <td>
-                                          <i class=' fa fa-edit fa-lg mt-8 ' style={{color:"green"}}  onClick={(evt)=>{this.update(item._id);this.setState({item1:item}) ; this.showModalUpdate(evt)} }>
-                                          </i>
-                                          <i class=' fa fa-trash fa-lg mt-8 ' style={{color:"black"}} onClick={(e)=> this.handleShow(e)}>
-                                          </i>
-                                        </td>
-                                        <td>{item.nom_filiere}</td>
-                                        <td>{item.niveau}</td>
-                                  
-                                        <Modal show={this.state.show1} onHide={this.handleClose}>
-                                      <Modal.Header closeButton>
-                                      </Modal.Header>
-                                      <Modal.Body> êtes vous sûr de vouloir supprimer cet enregistrement?</Modal.Body>
-                                      <Modal.Footer>
-                                        <Button variant="secondary" onClick={(e)=>this.handleClose(e)}>
-                                          Non
-                                        </Button>
-                                        <Button variant="secondary" onClick={()=>this.delete(item._id)}> 
-                                                                                 Oui
-                                        </Button>
-                                      </Modal.Footer>
-                                    </Modal>
-                                    </tr>
-                                )
-                                
-                            })
-                            }
-                          
-                            </tbody>
-                            </table>
-                        </div>
-
+      </div>
+      <div>
+        <Row className="mb-3" >
+          <Col md="9">
+            <Input type="text" onChange={e => setSearchTerm(e.target.value)} value={searchTerm} placeholder="rechercher par nom"/>
+          </Col>
+          <Col>
+            <Button
+              color="dark"
+              outline
+              block
+              onClick={() => toggle(null, "Ajouter Filiere", "Ajouter")}
+            >
+              <AddIcon /> Add New
+            </Button>
+          </Col>
+        </Row>
+        <Table>
+          <thead>
+            <tr>
+              <th scope="col">Action</th>
+              <th scope="col">Nom de Filiere</th>
+              <th scope="col">Niveau</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              filieres && filieres
+              .filter(item => {
+                if (searchTerm)
+                  return item.nom_filiere.toLowerCase().includes(searchTerm.toLowerCase());
+                else
+                  return true;
+              })
+              .map((item)=>{
+                return(
+                  <tr>
+                    <td>
+                      <i class=' fa fa-edit fa-lg mt-8 ' style={{color:"green"}} onClick={() => toggle(item, "Modifier Filiere", "Modifier")}></i>
+                      <i class=' fa fa-trash fa-lg mt-8 ' style={{color:"black"}} onClick={() => deleteFiliere(item._id)}></i>
+                    </td>
+                    <td>{item.nom_filiere}</td>
+                    <td>{item.niveau}</td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </Table>
+      </div>
     </div>
-    </div>
-    );
-}
-}
+  );
+};
 
 export default TableFiliere;
