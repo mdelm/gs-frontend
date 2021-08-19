@@ -11,15 +11,20 @@ import {
   Modal, 
   ModalHeader, 
   ModalBody,
+  ModalFooter,
   Input,
   Row,
   Col,
   Button,
-  Alert
+  Alert,
+  Container,
+  FormGroup,
+  Label
 } from "reactstrap";
 
 const TableEnseignant = props => {
   const [ enseignants, setEnseignants ] = useState([]);
+  const [ departements, setDepartements ] = useState([]);
 
   const [ modal, setModal ] = useState(false);
 
@@ -36,18 +41,31 @@ const TableEnseignant = props => {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ gsm, setGsm ] = useState("");
+  const [ departement, setDepartement ] = useState(null);
 
   const [ searchTerm, setSearchTerm ] = useState("");
 
   useEffect(() => {
     getAllEnseignants();
+    getAllDepartements();
   }, []);
+
+  useEffect(() => {
+    if (departements.length !== 0) setDepartement(departements[0]);
+  }, [departements]);
 
   const getAllEnseignants = () => {
     axios.get('http://localhost:3000/enseignant/findEnseignent')
       .then(response => {
         setEnseignants(response.data.data);
       });
+  };
+
+  const getAllDepartements = () => {
+    axios.get("http://localhost:3000/departements/findAllDepartement")
+      .then(res => {
+        setDepartements(res.data.data);
+      })
   };
 
   const toggle = (_item, _title, _btn_text) => {
@@ -66,6 +84,7 @@ const TableEnseignant = props => {
     setAdresse( _item !== null ? _item.adresse : "" );
     setEmail( _item !== null ? _item.email : "" );
     setGsm( _item !== null ? _item.GSM : "");
+    setDepartement( _item !== null ? departements.find(dep => dep._id === _item.departement) : null )
     setPassword("");
   };
 
@@ -79,7 +98,8 @@ const TableEnseignant = props => {
         adresse,
         email,
         password,
-        GSM: gsm
+        GSM: gsm,
+        departement: departement ? departement._id : ""
     };
     axios.post('http://localhost:3000/enseignant/AddEnseignant', data)
       .then(response => {
@@ -97,7 +117,8 @@ const TableEnseignant = props => {
         date_naissance: dateNaissance,
         adresse,
         email,
-        GSM: gsm
+        GSM: gsm,
+        departement: departement ? departement._id : ""
     };
     axios.put(`http://localhost:3000/enseignant/updateEnseignant/${enseignantId}`, data)
       .then(response => {
@@ -113,8 +134,17 @@ const TableEnseignant = props => {
       });
   };
 
+  const getDepartementNomById = (_id) => {
+    const dep = departements.find(dp => dp._id === _id);
+    if (dep) {
+      return `${dep.nom} (${dep.libelle})`;
+    } else {
+      return "---";
+    }
+  };
+
   return (
-    <div>
+    <Container>
       <Modal isOpen={modal} toggle={() => toggle(null, null, null)} size="lg">
         <ModalHeader toggle={() => toggle(null, null, null)} style={{backgroundColor:"#FFCC00"}}>
           <div id="contained-modal-title-vcenter">
@@ -220,7 +250,22 @@ const TableEnseignant = props => {
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
             </div>
-            <button
+            <FormGroup>
+              <Label style={{position: "relative"}}>Departement</Label>
+              <Input type="select"
+                onChange={e => setDepartement( departements.find(dep => dep._id === e.target.value) )}
+                value={departement ? departement._id : ""}
+              >
+                <option value="">---</option>
+                {
+                  departements && departements.map((dep, idx) => <option key={idx} value={dep._id}>{dep.nom} ({dep.libelle})</option>)
+                }
+              </Input>
+            </FormGroup>
+          </form>
+        </ModalBody>
+        <ModalFooter>
+          <button
               type="button" 
               class="button buttonBlue" 
               style={{color:"black"}}
@@ -234,8 +279,7 @@ const TableEnseignant = props => {
               {modalBtnText}
               <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
             </button>
-          </form>
-        </ModalBody>
+        </ModalFooter>
       </Modal>
       <div> 
         <PageHeader
@@ -268,6 +312,7 @@ const TableEnseignant = props => {
               <th scope="col">CIN</th>
               <th scope="col">Nom</th>
               <th scope="col">Prenom</th>
+              <th scope="col">Departement</th>
             </tr>
           </thead>
           <tbody>
@@ -290,6 +335,7 @@ const TableEnseignant = props => {
                     <td>{item.cin}</td>
                     <td>{item.nom}</td>
                     <td>{item.prenom}</td>
+                    <td>{getDepartementNomById(item.departement)}</td>
                   </tr>
                 );
               })
@@ -297,7 +343,7 @@ const TableEnseignant = props => {
           </tbody>
         </Table>
       </div>
-    </div>
+    </Container>
   );
 };
 
