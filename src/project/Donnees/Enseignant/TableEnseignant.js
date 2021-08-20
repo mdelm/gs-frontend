@@ -19,7 +19,9 @@ import {
   Alert,
   Container,
   FormGroup,
-  Label
+  Label,
+  ListGroup, 
+  ListGroupItem,
 } from "reactstrap";
 
 const TableEnseignant = props => {
@@ -41,7 +43,9 @@ const TableEnseignant = props => {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ gsm, setGsm ] = useState("");
-  const [ departement, setDepartement ] = useState(null);
+
+  const [ leftDeps, setLeftDeps ] = useState([]);
+  const [ rightDeps, setRightDeps ] = useState([]);
 
   const [ searchTerm, setSearchTerm ] = useState("");
 
@@ -49,10 +53,6 @@ const TableEnseignant = props => {
     getAllEnseignants();
     getAllDepartements();
   }, []);
-
-  useEffect(() => {
-    if (departements.length !== 0) setDepartement(departements[0]);
-  }, [departements]);
 
   const getAllEnseignants = () => {
     axios.get('http://localhost:3000/enseignant/findEnseignent')
@@ -84,8 +84,25 @@ const TableEnseignant = props => {
     setAdresse( _item !== null ? _item.adresse : "" );
     setEmail( _item !== null ? _item.email : "" );
     setGsm( _item !== null ? _item.GSM : "");
-    setDepartement( _item !== null ? departements.find(dep => dep._id === _item.departement) : null )
     setPassword("");
+
+    if (_item !== null) {
+      setLeftDeps(departements.filter(dep => _item.departements.includes(dep._id)));
+      setRightDeps(departements.filter(dep => !_item.departements.includes(dep._id)));
+    } else {
+      setLeftDeps([]);
+      setRightDeps(departements);
+    }
+  };
+
+  const addDep = (_dep) => {
+    setLeftDeps([...leftDeps, _dep]);
+    setRightDeps(rightDeps.filter(dep => dep._id !== _dep._id));
+  };
+
+  const suppDep = (_dep) => {
+    setLeftDeps(leftDeps.filter(dep => dep._id !== _dep._id));
+    setRightDeps([...rightDeps, _dep]);
   };
 
   const addEnseignant = () => {
@@ -99,7 +116,7 @@ const TableEnseignant = props => {
         email,
         password,
         GSM: gsm,
-        departement: departement ? departement._id : ""
+        departements: leftDeps.map(dep => ({ _id: dep._id }))
     };
     axios.post('http://localhost:3000/enseignant/AddEnseignant', data)
       .then(response => {
@@ -118,7 +135,7 @@ const TableEnseignant = props => {
         adresse,
         email,
         GSM: gsm,
-        departement: departement ? departement._id : ""
+        departements: leftDeps.map(dep => ({ _id: dep._id }))
     };
     axios.put(`http://localhost:3000/enseignant/updateEnseignant/${enseignantId}`, data)
       .then(response => {
@@ -132,15 +149,6 @@ const TableEnseignant = props => {
       .then(response => {
         getAllEnseignants();
       });
-  };
-
-  const getDepartementNomById = (_id) => {
-    const dep = departements.find(dp => dp._id === _id);
-    if (dep) {
-      return `${dep.nom} (${dep.libelle})`;
-    } else {
-      return "---";
-    }
   };
 
   return (
@@ -250,18 +258,63 @@ const TableEnseignant = props => {
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
             </div>
-            <FormGroup>
-              <Label style={{position: "relative"}}>Departement</Label>
-              <Input type="select"
-                onChange={e => setDepartement( departements.find(dep => dep._id === e.target.value) )}
-                value={departement ? departement._id : ""}
-              >
-                <option value="">---</option>
-                {
-                  departements && departements.map((dep, idx) => <option key={idx} value={dep._id}>{dep.nom} ({dep.libelle})</option>)
-                }
-              </Input>
-            </FormGroup>
+            <h5 className="text-center mb-3">Départements</h5>
+            <Row>
+              <Col>
+                <i className="text-muted">Departements de l'enseignant</i>
+                <ListGroup>
+                  {
+                    leftDeps && leftDeps.map((dep, idx) => {
+                      return <ListGroupItem
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <span>{dep.nom} ({dep.libelle})</span>
+                        <Button
+                          onClick={() => suppDep(dep)}
+                          size="sm"
+                          style={{
+                            height: "32px"
+                          }}
+                          color="danger"
+                        >
+                          <i className="fa fa-times" />
+                        </Button>
+                      </ListGroupItem>  
+                    })
+                  }
+                </ListGroup>
+              </Col>
+              <Col>
+                <i className="text-muted">Departements disponible</i>
+                <ListGroup>
+                  {
+                    rightDeps && rightDeps.map((dep, idx) => {
+                      return <ListGroupItem
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <span>{dep.nom} ({dep.libelle})</span>
+                        <Button
+                          onClick={() => addDep(dep)}
+                          size="sm"
+                          style={{
+                            height: "32px"
+                          }}
+                          color="info"
+                        >
+                          <i className="fa fa-check" />
+                        </Button>
+                      </ListGroupItem>
+                    })
+                  }                
+                </ListGroup>
+              </Col>
+            </Row>
           </form>
         </ModalBody>
         <ModalFooter>
@@ -312,7 +365,6 @@ const TableEnseignant = props => {
               <th scope="col">CIN</th>
               <th scope="col">Nom</th>
               <th scope="col">Prenom</th>
-              <th scope="col">Departement</th>
             </tr>
           </thead>
           <tbody>
@@ -335,7 +387,6 @@ const TableEnseignant = props => {
                     <td>{item.cin}</td>
                     <td>{item.nom}</td>
                     <td>{item.prenom}</td>
-                    <td>{getDepartementNomById(item.departement)}</td>
                   </tr>
                 );
               })

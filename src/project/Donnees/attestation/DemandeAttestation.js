@@ -133,7 +133,7 @@ const DemandeAttestation = (props) => {
                 enseignants && enseignants
                   .filter(ensei => {
                     if (departement) {
-                      return ensei.departement === departement._id;
+                      return ensei.departements.includes(departement._id);
                     } else {
                       return false;
                     }
