@@ -11,15 +11,18 @@ import {
   Modal, 
   ModalHeader, 
   ModalBody,
-  Input,
   Row,
   Col,
   Button,
-  Alert
+  Alert,
+  FormGroup,
+  Input,
+  Container,
 } from "reactstrap";
 
 const TableDepartement = props => {
   const [ departements, setDepartements ] = useState([]);
+  const [ enseignants, setEnseignants ] = useState([]);
 
   const [ modal, setModal ] = useState(false);
 
@@ -28,19 +31,27 @@ const TableDepartement = props => {
   const [ modalBtnText, setModalBtnText ] = useState(null);
 
   const [ nom, setNom ] = useState("");
-  const [ responsableDepartement, setResponsableDepartement ] = useState("");
+  const [ responsableDepartement, setResponsableDepartement ] = useState(null);
   const [ libelle, setLibelle ] = useState("");
 
   const [ searchTerm, setSearchTerm ] = useState("");
 
   useEffect(() => {
     getAllDepartements();
+    getAllEnseignants();
   }, []);
 
   const getAllDepartements = () => {
     axios.get('http://localhost:3000/departements/findAllDepartement')
       .then(response => {
         setDepartements(response.data.data);
+      });
+  };
+
+  const getAllEnseignants = () => {
+    axios.get('http://localhost:3000/enseignant/findEnseignent')
+      .then(response => {
+        setEnseignants(response.data.data);
       });
   };
 
@@ -53,12 +64,16 @@ const TableDepartement = props => {
 
     setDepartementId( _item !== null ? _item._id : null);
     setNom( _item !== null ? _item.nom : "" );
-    setResponsableDepartement( _item !== null ? _item.responsableDepartement : "");
+    setResponsableDepartement( _item !== null ? enseignants.find(ensei => ensei._id == _item.responsableDepartement) : null);
     setLibelle( _item !== null ? _item.libelle : "" );
   };
 
   const addDepartement = () => {
-    const data = { nom, responsableDepartement, libelle };
+    const data = { 
+      nom, 
+      responsableDepartement: responsableDepartement ? responsableDepartement._id : null, 
+      libelle 
+    };
     axios.post('http://localhost:3000/departements/addDepartement', data)
       .then(response => {
         getAllDepartements();
@@ -67,7 +82,11 @@ const TableDepartement = props => {
   };
 
   const updateDepartement = () => {
-    const data = { nom, responsableDepartement, libelle };
+    const data = {
+      nom, 
+      responsableDepartement: responsableDepartement ? responsableDepartement._id : null, 
+      libelle 
+    };
     axios.put(`http://localhost:3000/departements/updateDepartementById/${departementId}`, data)
       .then(response => {
         getAllDepartements();
@@ -82,8 +101,17 @@ const TableDepartement = props => {
       });
   };
 
+  const geResponsableDepartementNomById = (_id) => {
+    const resp = enseignants.find(ensei => ensei._id === _id);
+    if (resp) {
+      return `${resp.nom} ${resp.prenom}`;
+    } else {
+      return "";
+    }
+  }
+
   return (
-    <div>
+    <Container>
       <Modal isOpen={modal} toggle={() => toggle(null, null, null)} size="lg">
         <ModalHeader toggle={() => toggle(null, null, null)} style={{backgroundColor:"#FFCC00"}}>
           <div id="contained-modal-title-vcenter">
@@ -112,16 +140,18 @@ const TableDepartement = props => {
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
             </div>
-            <div class="group">
-                <label><i class="fa fa-user"></i> </label>
-                <input 
-                  type="text" 
-                  placeholder="Responsable" 
-                  style={{marginLeft:"25px"}}
-                  onChange={e => setResponsableDepartement(e.target.value)} value={responsableDepartement}/>
-                <span class="highlight"style={{marginLeft:"25px"}} />
-                <span class="bar" style={{marginLeft:"25px"}}></span>
-            </div>
+            <FormGroup>
+              <Input 
+                type="select"
+                onChange={e => setResponsableDepartement(enseignants.find(ensei => ensei._id === e.target.value))}
+                value={responsableDepartement ? responsableDepartement._id : ""}
+              >
+                <option value={null}>--- chef de departement ---</option>
+                {
+                  enseignants && enseignants.map((ensei, idx) => <option value={ensei._id} key={idx}>{ensei.nom} {ensei.prenom}</option>)
+                }
+              </Input>
+            </FormGroup>
             <button
               type="button" 
               class="button buttonBlue" 
@@ -167,7 +197,7 @@ const TableDepartement = props => {
             <tr>
               <th scope="col">Action</th>
               <th scope="col">Nom de Departement</th>
-              <th scope="col">Responsable</th>
+              <th scope="col">Chef de Departement</th>
             </tr>
           </thead>
           <tbody>
@@ -187,7 +217,7 @@ const TableDepartement = props => {
                       <i class=' fa fa-trash fa-lg mt-8 ' style={{color:"black"}} onClick={() => deleteDepartement(item._id)}></i>
                     </td>
                     <td>{item.nom} ({item.libelle})</td>
-                    <td>{item.responsableDepartement}</td>
+                    <td>{geResponsableDepartementNomById(item.responsableDepartement)}</td>
                   </tr>
                 );
               })
@@ -195,7 +225,7 @@ const TableDepartement = props => {
           </tbody>
         </Table>
       </div>
-    </div>
+    </Container>
   );
 };
 

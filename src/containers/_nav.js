@@ -37,7 +37,7 @@ export const nav_etudiant =  [{
       {
         _tag: 'CSidebarNavItem',
         name: 'ATTETSTATION',
-        to: '/attestation',
+        to: '/DemandeAttestation',
         icon: 'cil-people',
       },
     

@@ -91,7 +91,10 @@ const Profile = React.lazy(() => import ('./project/components/Profile'));
 
 const TimeTable = React.lazy(() => import('./project/Donnees/TimeTable/TimeTable'));
 
-const Attestation = React.lazy(() => import('./project/Donnees/attestation/attestation'))
+const DemandeAttestation = React.lazy(() => import('./project/Donnees/attestation/DemandeAttestation'));
+const AdminAttestations = React.lazy(() => import("./project/Donnees/attestation/AdminAttestations"));
+const AncadreurAttestations = React.lazy(() => import("./project/Donnees/attestation/AncadreurAttestations"));
+const ChefDepAttestations = React.lazy(() => import("./project/Donnees/attestation/ChefDepAttestations"));
 const userss = React.lazy(()=>import('./project/Donnees/Administration/utilisateur/TableUser'))
 const CalculMoyenne = React.lazy(()=>import('./project/Donnees/noteMoyenne/CalculMoyenne'))
 const notes = React.lazy(()=>import('./project/Donnees/moyyyy/notes'))
@@ -213,8 +216,11 @@ const routes = [
   { path: '/timeTable', name: 'TimeTable',  exact: true },
   {path : '/timeTable/etudiant', name: 'Cours', component:TimeTable},
 
-  {path : '/attestation', name:'attestation', component:Attestation},
-  {path:'/userss' , name: 'users' , component:userss},
+  { path : '/DemandeAttestation', name:'attestation', component:DemandeAttestation},
+  { path : "/AdminAttestations", name:"attestation", component:AdminAttestations},
+  { path : "/AncadreurAttestations", name:"attestation", component:AncadreurAttestations},
+  { path: "/ChefDepAttestations", name:"attestation", component:ChefDepAttestations },
+  { path : '/userss' , name: 'users' , component:userss},
 
   { path: '/donnee', name: 'Donnee',  exact: true },
   {path : '/donnee/TableDevoir', name: 'Cours', component:TableDevoir},
