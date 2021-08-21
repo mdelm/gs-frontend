@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button } from "reactstrap";
+import { Table, Button, Container } from "reactstrap";
 import axios from "axios";
 import userController from '../../../project/services/Controllers/userController';
 
@@ -36,7 +36,7 @@ const ListeSoutenances = (props) => {
 	};
 
 	return (
-		<div>
+		<Container className="mt-4">
 			<Table>
 				<thead>
 					<tr>
@@ -61,7 +61,7 @@ const ListeSoutenances = (props) => {
 					}) }
 				</tbody>
 			</Table>
-		</div>
+		</Container>
 	);
 };
 

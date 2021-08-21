@@ -1,15 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Badge } from "reactstrap";
+import { 
+	Table, 
+	Button, 
+	Badge,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	Input,
+	FormGroup,
+	FormText
+} from "reactstrap";
 import "./DetailSoutenanceStyle.css";
 import userController from '../../../project/services/Controllers/userController';
 import axios from "axios";
+import { saveAs } from "file-saver";
 
 const DetailSoutenance = (props) => {
 	const [ user, setUser ] = useState(null);
 	const [ stage, setStage ] = useState(null);
 
+	const [ departements, setDepartements ] = useState([]);
+
+	const [ departement, setDepartement ] = useState("");
+
+	const [ modal, setModal ] = useState(false);
+
 	useEffect(() => {
 		getOneUser();
+		fetchDepartements();
 	}, []);
 
 	useEffect(() => {
@@ -32,6 +51,34 @@ const DetailSoutenance = (props) => {
 			});
 	};
 
+	const fetchDepartements = () => {
+		axios.get("http://localhost:3000/departements/findAllDepartement")
+			.then(res => {
+				setDepartements(res.data.data);
+				if (res.data.data.length !== 0 && departement === "") {
+					setDepartement(res.data.data[0]);
+				}
+			})
+	};
+
+	const toggle = () => {
+		setModal(!modal);
+	};
+
+	const uploadFile = e => {
+		const data = new FormData();
+		const file = document.querySelector("#file").files[0];
+		data.append("file", file);
+		axios.post(`http://localhost:3000/rapport/upload?etudId=${user._id}&depId=${departement._id}&stageId=${props.match.params.stage_id}`, data)
+			.then(res => {
+				console.log(res.data.message);
+				toggle();
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
 	return (
 		<>
 		{
@@ -40,6 +87,48 @@ const DetailSoutenance = (props) => {
 			<div>loading...</div>
 			:
 			<div className="detail-soutenance">
+				<Modal isOpen={modal} toggle={toggle} size="lg">
+	        <ModalHeader toggle={toggle} style={{backgroundColor:"#FFCC00"}}>
+	          <div id="contained-modal-title-vcenter">
+	            <h1 style={{color:"black", fontSize:"40px", fontWeight:"35px"}}>Upload File</h1>
+	          </div>
+	        </ModalHeader>
+	        <ModalBody>   
+	        	{/*<Label for="exampleSelectMulti">Departemant</Label>*/}
+	        	<FormGroup>
+			        <Input 
+			        	type="select" 
+			        	onChange={e => setDepartement( departements.find(dep => dep._id === e.target.value) )} 
+			        	value={departement ? departement._id : ""}
+			        >
+			        	{
+			        		departements && departements.map((dep, idx) => <option value={dep._id} key={idx}>{dep.nom} ({dep.libelle})</option>)
+			        	}
+			        </Input>
+			      </FormGroup>
+
+			      {/*<Label for="exampleFile">File</Label>*/}
+	        	<FormGroup>
+			        <Input type="file" name="file" id="file" />
+			        <FormText color="muted">
+			          This is some placeholder block-level help text for the above input.
+			          It's a bit lighter and easily wraps to a new line.
+			        </FormText>
+			      </FormGroup>
+
+	        </ModalBody>
+	        <ModalFooter>
+	        	<button
+	            type="button" 
+	            class="button buttonBlue" 
+	            style={{color:"black"}}
+	            onClick={uploadFile}
+	          >
+	            Upload
+	            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+	          </button>
+	        </ModalFooter>
+	      </Modal>
 				<Table>
 					<tbody>
 						<tr>
@@ -60,7 +149,10 @@ const DetailSoutenance = (props) => {
 						</tr>
 						<tr>
 							<td><strong>Rapport PDF</strong></td>
-							<td><Button size="sm" color="info"><i className="fa fa-download" /></Button></td>
+							<td>
+								<Button size="sm" color="info" className="mr-2"><i className="fa fa-download" />{' '}Download</Button>
+								<Button size="sm" color="info" onClick={toggle}><i className="fa fa-upload" />{' '}Upload</Button>
+							</td>
 						</tr>
 						<tr>
 							<td><strong>Page de garte</strong></td>

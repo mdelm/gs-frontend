@@ -25,6 +25,7 @@ const TableRapport = (props) => {
 	const [ usr, setUsr ] = useState(null);
 	const [ rapports, setRapports ] = useState([]);
 	const [ departements, setDepartements ] = useState([]);
+	const [ stages, setStages ] = useState([]);
 
 	const [ departement, setDepartement ] = useState("");
 
@@ -34,9 +35,16 @@ const TableRapport = (props) => {
 
 	useEffect(() => {
 		getOneUser();
-		fetchRapports();
 		fetchDepartements();
 	}, []);
+
+	useEffect(() => {
+		if (usr !== null) { fetchStages(); console.log(usr); }
+	}, [usr]);
+
+	useEffect(() => {
+		if (stages.length > 0) fetchRapports();
+	}, [stages]);
 
 	const getOneUser = () => {
 		const userCtrl = new userController();
@@ -46,10 +54,33 @@ const TableRapport = (props) => {
     	});
 	};
 
+	const fetchStages = () => {
+		axios.get("http://localhost:3000/stages/AllStages")
+			.then(res => {
+				setStages(res.data.data);
+			});
+	};
+
 	const fetchRapports = () => {
 		axios.get("http://localhost:3000/rapport/all")
 			.then(res => {
-				setRapports(res.data.data);
+				let data = [];
+				if (usr.__t === "etudiant") {
+					const usrStages = stages.filter(stage => stage.binome.includes(usr._id)).map(stage => stage._id);
+					data = res.data.data.filter(rapport => usrStages.includes(rapport.stage));
+				} else if (usr.__t === "enseignant") {
+
+					const usrStages = stages.filter(stage => {
+						if (stage.soutenance.jurys.includes(usr._id) || 
+								stage.encadrant_universitaire_principale === usr._id ) {
+							return true;
+						} else {
+							return false;
+						}
+					}).map(stage => stage._id);
+					data = res.data.data.filter(rapport => usrStages.includes(rapport.stage));
+				}
+				setRapports(data);
 			});
 	};
 
@@ -168,14 +199,14 @@ const TableRapport = (props) => {
         		justifyContent: "space-between"    	
         	}}
         >
-        	<Button
+        	{/*<Button
 	          color="info"
 	          outline
 	          onClick={toggle}
 	          className="mb-4"	        
 	         >
 	          <AddIcon />{' '}Upload File
-	        </Button>
+	        </Button>*/}
 	        <Input 
 	        	type="select" 
 	        	onChange={e => setListBy( departements.find(dep => dep._id === e.target.value) )} 

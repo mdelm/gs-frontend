@@ -9,7 +9,8 @@ import {
 	Modal, 
 	ModalHeader, 
 	ModalBody, 
-	ModalFooter
+	ModalFooter,
+	Container
 } from "reactstrap";
 import axios from "axios";
 import "./SoutenanceStyle.css";
@@ -101,7 +102,7 @@ const Soutenance = (props) => {
   };
 
 	return (
-		<div className="soutenance">
+		<Container className="soutenance">
 
 			<div>
 	      <Modal isOpen={modal} toggle={() => toggle(null)}>
@@ -182,7 +183,7 @@ const Soutenance = (props) => {
 					}) }
 				</tbody>
 			</Table>
-		</div>
+		</Container>
 	);
 };
 
