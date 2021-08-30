@@ -1,0 +1,13 @@
+.procedure-stage {
+	margin-top: 32px;
+	font-size: 14px;
+}
+
+.procedure-stage h2 {
+	margin-bottom: 32px;
+}
+
+.procedure-stage img {
+	position: relative;
+	width: 100%;
+}

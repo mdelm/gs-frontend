@@ -116,6 +116,8 @@ const ListeSoutenances = React.lazy(() => import("./project/Donnees/Stage/ListeS
 
 const TableRapport = React.lazy(() => import("./project/Donnees/Bibliotheque/TableRapport"));
 
+const ProcedureStage = React.lazy(() => import("./project/Donnees/Stage/ProcedureStage"));
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -244,6 +246,7 @@ const routes = [
  { path: "/stages/soutenance", name: "Soutenance", component: Soutenance },
  { path: "/stages/listeSoutenances", name: "Liste Soutenances", component: ListeSoutenances },
  { path: "/stages/detailsSoutenance/:stage_id", name: "Detail Soutenance", component: DetailSoutenance },
+ { path: "/stages/ProcedureStage", name: "ProcedureStage", component: ProcedureStage },
  { path: "/stages", name: "Stages", component: StageMenu },
 
  { path: "/biblio/TableRapport", name: "Bibliotheque", component: TableRapport },
