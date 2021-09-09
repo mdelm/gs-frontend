@@ -372,7 +372,7 @@ const TableEnseignant = props => {
               enseignants && enseignants
               .filter(item => {
                 if (searchTerm)
-                  return (item.nom.toLowerCase() + item.prenom.toLowerCase()).includes(searchTerm.toLowerCase());
+                  return (item.nom.toLowerCase() + " " + item.prenom.toLowerCase()).includes(searchTerm.toLowerCase());
                 else
                   return true;
               })
