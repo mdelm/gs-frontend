@@ -3,13 +3,21 @@ import axios from "axios";
 import {
 	Button,
 	Table,
-	Container
+	Container,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	ModalFooter
 } from "reactstrap";
 import { saveAs } from "file-saver";
 
 const AdminAttestations = (props) => {
 	const [ attestations, setAttestations ] = useState([]);
 	const [ etudiants, setEtudiants ] = useState([]);
+
+	const [ attToDelete, setAttToDelete ] = useState(null);
+
+	const [ isOpen, setIsOpen ] = useState(false);
 
 	const getAttestations = () => {
 		axios.get("http://localhost:3000/attestation/all")
@@ -23,6 +31,23 @@ const AdminAttestations = (props) => {
 			.then(res => {
 				setEtudiants(res.data.data);
 			});
+	};
+
+	const handleDeleteAttesation = () => {
+		axios.delete(`http://localhost:3000/attestation/${attToDelete}`)
+			.then(res => {
+				getAttestations();
+			});
+	};
+
+	const toggle = (_id) => {
+		if (_id !== null && isOpen === false) {
+			setAttToDelete(_id);
+		} else {
+			setAttToDelete(null);
+		}
+
+		setIsOpen(!isOpen);
 	};
 
 	useEffect(() => {
@@ -80,6 +105,33 @@ const AdminAttestations = (props) => {
 
 	return (
 		<Container className="mt-4">
+			<Modal isOpen={isOpen} toggle={() => toggle(null)} size="md">
+				<ModalHeader>{attToDelete}</ModalHeader>
+				<ModalBody >
+					<center>Voulez-vous supprimer cette attestition?</center>
+				</ModalBody>
+				<ModalFooter>
+					<Button
+						color="info"
+						className="mr-4"
+						onClick={() => {
+							handleDeleteAttesation();
+							toggle(null);
+						}}
+					>
+						<i className="fa fa-check" />{' '}
+						Oui
+					</Button>
+					<Button
+						color="secondary"
+						onClick={() => toggle(null)}
+					>
+						<i className="fa fa-times" />{' '}
+						Non
+					</Button>
+				</ModalFooter>
+			</Modal>
+
 			<Table>
 				<thead>
 					<tr>
@@ -112,6 +164,7 @@ const AdminAttestations = (props) => {
 									<Button
 										color="danger"
 										className="ml-2"
+										onClick={() => toggle(att._id)}
 									>
 										<i className="fa fa-trash" />
 									</Button>
