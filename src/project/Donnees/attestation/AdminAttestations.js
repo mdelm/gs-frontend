@@ -9,16 +9,25 @@ import { saveAs } from "file-saver";
 
 const AdminAttestations = (props) => {
 	const [ attestations, setAttestations ] = useState([]);
+	const [ etudiants, setEtudiants ] = useState([]);
 
 	const getAttestations = () => {
 		axios.get("http://localhost:3000/attestation/all")
 			.then(res => {
 				setAttestations(res.data.data);
 			});
-	}
+	};
+
+	const getEtudiants = () => {
+		axios.get("http://localhost:3000/etudiants/findAllEtudiant")
+			.then(res => {
+				setEtudiants(res.data.data);
+			});
+	};
 
 	useEffect(() => {
 		getAttestations();
+		getEtudiants();
 	}, []);
 
 	const Oui = (props) => {
@@ -75,6 +84,8 @@ const AdminAttestations = (props) => {
 				<thead>
 					<tr>
 						<th>#</th>
+						<th>Matricule d'Etudiant</th>
+						<th>Nom d'Etudiant</th>
 						<th>Confirmé par l'ancadreur</th>
 						<th>Confirmé par chef de departement</th>
 						<th>Action</th>
@@ -83,8 +94,11 @@ const AdminAttestations = (props) => {
 				<tbody>
 					{
 						attestations && attestations.map((att, idx) => {
+							const etudiant = etudiants.find(etud => etud._id === att.etudiant);
 							return <tr key={idx}>
 								<td>{idx+1}</td>
+								<td>{etudiant && etudiant.matricule}</td>
+								<td>{etudiant && `${etudiant.nom} ${etudiant.prenom}`}</td>
 								<td>{att.confirmed_by_ancadreur ? <Oui />: <Non />}</td>
 								<td>{att.confirmed_by_chef_departement ? <Oui />: <Non />}</td>
 								<td>
@@ -93,7 +107,13 @@ const AdminAttestations = (props) => {
 										disabled={!(att.confirmed_by_ancadreur && att.confirmed_by_chef_departement)}
 										onClick={() => handleDownloadPdf(att._id)}
 									>
-										<i className="fa fa-download" /> Telecharger PDF
+										<i className="fa fa-download" />
+									</Button>
+									<Button
+										color="danger"
+										className="ml-2"
+									>
+										<i className="fa fa-trash" />
 									</Button>
 								</td>
 							</tr>

@@ -10,6 +10,7 @@ import {
 const AncadreurAttestations = (props) => {
 	const [ user, setUser ] = useState(null);
 	const [ attestations, setAttestations ] = useState([]);
+	const [ etudiants, setEtudiants ] = useState([]);
 
 	const getOneUser = () => {
     const userCtrl = new userController();
@@ -26,6 +27,13 @@ const AncadreurAttestations = (props) => {
 			});
 	}
 
+	const getEtudiants = () => {
+		axios.get("http://localhost:3000/etudiants/findAllEtudiant")
+			.then(res => {
+				setEtudiants(res.data.data);
+			});
+	};
+
 	useEffect(() => {
 		getOneUser();
 	}, []);
@@ -33,6 +41,7 @@ const AncadreurAttestations = (props) => {
 	useEffect(() => {
 		if (user !== null) {
 			getAttestations();
+			getEtudiants();
 		}
 	}, [user]);
 
@@ -49,14 +58,23 @@ const AncadreurAttestations = (props) => {
 				<thead>
 					<tr>
 						<th>#</th>
+						<th>Matricule d'Etudiant</th>
+						<th>Nom d'Etudiant</th>
+						<th>Specialite</th>
+						<th>Raison</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
 					{
 						attestations && attestations.map((att, idx) => {
+							const etudiant = etudiants.find(etud => etud._id === att.etudiant);
 							return <tr key={idx}>
 								<td>{idx+1}</td>
+								<td>{etudiant && etudiant.matricule}</td>
+								<td>{etudiant && `${etudiant.nom} ${etudiant.prenom}`}</td>
+								<td>{att.specialite}</td>
+								<td>{att.raison}</td>
 								<td>
 									<Button 
 										color="info"
