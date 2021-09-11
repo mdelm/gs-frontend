@@ -9,14 +9,15 @@ import {
   Label,
   Row, 
   Col
-} from "reactstrap"; 
+} from "reactstrap";
+import { format } from "date-fns";
 
 const DemandeAttestation = (props) => {
   const [ nom, setNom ] = useState("");
   const [ prenom, setPrenom ] = useState("");
   const [ date, setDate ] = useState("");
   const [ specialite, setSpecialite ] = useState("");
-  const [ niveau, setNiveau ] = useState("");
+  const [ raison, setRaison ] = useState("");
   const [ departement, setDepartement ] = useState(null);
   const [ ancadreur, setAncadreur ] = useState(null);
 
@@ -34,6 +35,7 @@ const DemandeAttestation = (props) => {
     if (user !== null) {
       setNom(user.nom);
       setPrenom(user.prenom);
+      setDate(format(new Date(user.date_naissance), "yyyy-MM-dd"));
     }
   }, [user]);
 
@@ -65,7 +67,7 @@ const DemandeAttestation = (props) => {
       departement: departement._id,
       ancadreur: ancadreur._id,
       chef_departement: departement.responsableDepartement,
-      niveau,
+      raison,
       specialite,
       date,
     };
@@ -81,33 +83,37 @@ const DemandeAttestation = (props) => {
       <Row>
         <Col>
           <FormGroup>
-            <Label>Nom</Label>
+            <Label>Nom : </Label>
             <Input type="text" onChange={(e) => setNom(e.target.value)} value={nom} disabled />
           </FormGroup>
         </Col>
         <Col>
           <FormGroup>
-            <Label>Prenom</Label>
+            <Label>Prenom : </Label>
             <Input type="text" onChange={(e) => setPrenom(e.target.value)} value={prenom} disabled />
           </FormGroup>
         </Col>
       </Row>
       <FormGroup>
-        <Label>Date</Label>
-        <Input type="date" onChange={(e) => setDate(e.target.value)} value={date} />
+        <Label>Date : </Label>
+        <Input type="date" onChange={(e) => setDate(e.target.value)} value={date} disabled />
       </FormGroup>
+      {/*<FormGroup>
+        <Label>Date : </Label>
+        <Input type="date" id="date2" value="2021-09-14" />
+      </FormGroup>*/}
       <FormGroup>
-        <Label>Specialite</Label>
+        <Label>Specialite : </Label>
         <Input type="text" onChange={(e) => setSpecialite(e.target.value)} value={specialite} />
       </FormGroup>
       <FormGroup>
-        <Label>Niveau d'étude</Label>
-        <Input type="text" onChange={(e) => setNiveau(e.target.value)} value={niveau} />
+        <Label>Raison : </Label>
+        <Input type="textarea" onChange={(e) => setRaison(e.target.value)} value={raison} />
       </FormGroup>
       <Row>
         <Col>
           <FormGroup>
-            <Label>Departement</Label>
+            <Label>Departement : </Label>
             <Input 
               type="select"
               onChange={ (e) => setDepartement(departements.find(dep => dep._id === e.target.value)) }
@@ -122,7 +128,7 @@ const DemandeAttestation = (props) => {
         </Col>
         <Col>
           <FormGroup>
-            <Label>Ancadreur</Label>
+            <Label>Ancadreur : </Label>
             <Input 
               type="select"
               onChange={ (e) => setAncadreur(enseignants.find(ensei => ensei._id === e.target.value)) }
