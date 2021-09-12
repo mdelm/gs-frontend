@@ -50,6 +50,8 @@ const TableEtudiant = props => {
 
   const [ searchTerm, setSearchTerm ] = useState("");
 
+  const [ errors, setErrors ] = useState({});
+
   useEffect(() => {
     getAllEtudiant();
   }, []);
@@ -62,6 +64,8 @@ const TableEtudiant = props => {
   };
 
   const toggle = (_item, _title, _btn_text) => {
+    if (modal === true) setErrors({});
+
     setModal(!modal);
     setModalTitle(_title);
     setModalBtnText(_btn_text);
@@ -161,11 +165,67 @@ const TableEtudiant = props => {
     return "";
   };
 
+  const validateForm = (e) => {
+    const { name, value } = e.target;
+    let msg = "";
+
+    switch (name) {
+
+      case "cin":
+        if (value === "") {
+          msg = "requis";
+        } else if (!/^[0-9]{8}$/.test(value)) {
+          msg = "CIN doit etre de 8 caractères contenant des chiffres numérique";
+        }
+        setErrors({
+          ...errors,
+          "cin": msg
+        });
+        break;
+
+      case "email":
+        if (value === "") msg = "requis";
+        else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) msg = "adresse email incorrect";
+        setErrors({ ...errors, "nom": msg });
+        break;
+
+      case "gsm":
+        if (value === "") msg = "requis";
+        else if (!/^[0-9]{1,8}$/.test(value)) msg = "GSM doit etre de 1 a 8 caractères contenant des chiffres numérique";
+        setErrors({ ...errors, "gsm": msg });
+        break;
+
+      case "password":
+        if (etudiantId === null) {
+          if (value === "") {
+            msg = "requis";
+          } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(value)) {
+            msg = "Saisi un mot de passe de 8 à 15 caractères contenant au moins une lettre minuscule, une lettre majuscule, un chiffre numérique et un caractère spécial";
+          }
+          setErrors({
+            ...errors,
+            "password": msg
+          });
+        }
+        break;
+
+      case "email_parent":
+        if (value === "") msg = "requis";
+        else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) msg = "adresse email incorrect";
+        setErrors({ ...errors, "email_parent": msg });
+        break;
+    }
+  }
+
   return (
     <div>
 
       <Modal isOpen={isOpen} toggle={() => toggleConfirm(null)} size="md">
-        <ModalHeader>Supprimer Etudiant</ModalHeader>
+        <ModalHeader toggle={() => toggleConfirm(null, null, null)} style={{backgroundColor:"#FFCC00"}}>
+          <div id="contained-modal-title-vcenter">
+            <h1 style={{color:"black", fontSize:"28px", fontWeight:"35px"}}>Supprimer Etudiant</h1>
+          </div>
+        </ModalHeader>
         <ModalBody >
           <center>Voulez-vous supprimer l'etudiant <strong>{getEtudiantName()}</strong>?</center>
         </ModalBody>
@@ -203,6 +263,7 @@ const TableEtudiant = props => {
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
                 <input 
+                  name="matricule"
                   type="text" 
                   placeholder="Matricule" 
                   style={{marginLeft:"25px"}}
@@ -210,22 +271,24 @@ const TableEtudiant = props => {
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
             </div>
-            <Alert color="info">
-                CIN doit etre de 8 caractères contenant des chiffres numérique
-            </Alert>
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
                 <input 
+                  name="cin"
                   type="text" 
                   placeholder="CIN" 
                   style={{marginLeft:"25px"}}
-                  onChange={e => setCin(e.target.value)} value={cin}/>
+                  onChange={e => setCin(e.target.value)} value={cin}
+                  onBlur={validateForm}
+                />
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
+                {errors && errors["cin"] !== "" && <div className="text-danger" style={{marginLeft:"25px"}}>{' '}{errors["cin"]}</div>}
             </div>
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
                 <input 
+                  name="nom"
                   type="text" 
                   placeholder="Nom" 
                   style={{marginLeft:"25px"}}
@@ -236,7 +299,8 @@ const TableEtudiant = props => {
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
                 <input 
-                  type="text" 
+                  type="text"
+                  name="prenom" 
                   placeholder="Prenom" 
                   style={{marginLeft:"25px"}}
                   onChange={e => setPrenom(e.target.value)} value={prenom}/>
@@ -285,27 +349,31 @@ const TableEtudiant = props => {
             </div>
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
-                <input 
+                <input
+                  name="email"
                   type="text" 
                   placeholder="Email" 
                   style={{marginLeft:"25px"}}
-                  onChange={e => setEmail(e.target.value)} value={email}/>
+                  onChange={e => setEmail(e.target.value)} value={email}
+                  onBlur={validateForm}
+                />
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
+                {errors && errors["email"] !== "" && <div className="text-danger" style={{marginLeft:"25px"}}>{' '}{errors["email"]}</div>}
             </div>
-            <Alert color="info">
-                mot de passe doit etre de 8 à 15 caractères contenant au moins une lettre minuscule,
-                une lettre majuscule, un chiffre numérique et un caractère spécial
-            </Alert>
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
                 <input 
+                  name="password"
                   type="password" 
                   placeholder="Mot de passe" 
                   style={{marginLeft:"25px"}}
-                  onChange={e => setPassword(e.target.value)} value={password}/>
+                  onChange={e => setPassword(e.target.value)} value={password}
+                  onBlur={validateForm}
+                />
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
+                {errors && errors["password"] !== "" && <div className="text-danger" style={{marginLeft:"25px"}}>{' '}{errors["password"]}</div>}
             </div>  
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
@@ -327,18 +395,19 @@ const TableEtudiant = props => {
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
             </div>
-            <Alert color="info">
-                GSM doit etre de 1 a 8 caractères contenant des chiffres numérique
-            </Alert>
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
                 <input 
+                  name="gsm"
                   type="text" 
                   placeholder="GSM" 
                   style={{marginLeft:"25px"}}
-                  onChange={e => setGsm(e.target.value)} value={gsm}/>
+                  onChange={e => setGsm(e.target.value)} value={gsm}
+                  onBlur={validateForm}
+                />
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
+                {errors && errors["gsm"] !== "" && <div className="text-danger" style={{marginLeft:"25px"}}>{' '}{errors["gsm"]}</div>}
             </div>
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
@@ -353,12 +422,16 @@ const TableEtudiant = props => {
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
                 <input 
+                  name="email_parent"
                   type="text" 
                   placeholder="Email Parent" 
                   style={{marginLeft:"25px"}}
-                  onChange={e => setEmailParent(e.target.value)} value={emailParent}/>
+                  onChange={e => setEmailParent(e.target.value)} value={emailParent}
+                  onBlur={validateForm}
+                />
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
+                {errors && errors["eamil_parent"] !== "" && <div className="text-danger" style={{marginLeft:"25px"}}>{' '}{errors["email_parent"]}</div>}
             </div>
             <button
               type="button" 
