@@ -118,6 +118,8 @@ const TableRapport = React.lazy(() => import("./project/Donnees/Bibliotheque/Tab
 
 const ProcedureStage = React.lazy(() => import("./project/Donnees/Stage/ProcedureStage"));
 
+const UploadSignature = React.lazy(() => import("./project/Donnees/Administration/UploadSignature"));
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -250,6 +252,8 @@ const routes = [
  { path: "/stages", name: "Stages", component: StageMenu },
 
  { path: "/biblio/TableRapport", name: "Bibliotheque", component: TableRapport },
+
+ { path: "/UploadSignature", name: "UploadSignature", component: UploadSignature }
 
 ];
 
