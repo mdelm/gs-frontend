@@ -24,11 +24,14 @@ import {
   Label,
 } from 'reactstrap';
 import classnames from 'classnames';
+import { format } from "date-fns";
 
 const Profile = (props) => {
   const [ user, setUser ] = useState(null);
   const [ activeTab, setActiveTab ] = useState('1');
   const [ modal, setModal ] = useState(false);
+
+  const [ isOpen, setIsOpen ] = useState(false);
 
   const [ nom, setNom ] = useState("");
   const [ prenom, setPrenom ] = useState("");
@@ -39,6 +42,8 @@ const Profile = (props) => {
   const [ gsm, setGsm ] = useState("");
   const [ emailParent, setEmailParent ] = useState("");
 
+  const [ newPassword, setNewPassword ] = useState("");
+
   const getOneUser = () => {
     const userCtrl = new userController();
     userCtrl.getoneUserById(localStorage.getItem('iduser'))
@@ -48,7 +53,7 @@ const Profile = (props) => {
 
         setNom(usr.nom);
         setPrenom(usr.prenom);
-        setDateNaissance(usr.date_naissance);
+        setDateNaissance(format(new Date(usr.date_naissance), "yyyy-MM-dd"));
         setLieuNaissance(usr.lieu_naissance);
         setAdresse(usr.adresse);
         setEmail(usr.email);
@@ -64,6 +69,11 @@ const Profile = (props) => {
   const toggle = () => {
     setModal(!modal);
   };
+
+  const toggleOpen = () => {
+    if (isOpen === true) setNewPassword("");
+    setIsOpen(!isOpen);
+  }
 
   const handleSubmit = () => {
     const usr = {
@@ -88,6 +98,15 @@ const Profile = (props) => {
     getOneUser();
   }, []);
 
+  const handleChangePasswordSubmit = () => {
+    if (newPassword !== "") {
+      axios.put(`http://localhost:3000/userrr/changepassword`, { _id: user._id, password: newPassword })
+        .then(res => {
+          setNewPassword("");
+        });
+    }
+  };
+
   return (
     <>
     {
@@ -96,6 +115,29 @@ const Profile = (props) => {
       <p>... loading</p>
       :
       <Container className="mt-4">
+
+        <Modal isOpen={isOpen} toggle={toggleOpen} size="md">
+          <ModalHeader>Modifier le Mot de Passe</ModalHeader>
+          <ModalBody>
+            <label htmlFor="nom" className="label-required">Nouveau Mot de Passe: </label>
+            <Input type="text" name="new-password" className="mb-4" onChange={(e) => setNewPassword(e.target.value)} value={newPassword}/>
+          </ModalBody>
+          <ModalFooter>
+            <Button 
+              color="success"
+              onClick={() => {
+                handleChangePasswordSubmit();
+                toggleOpen();
+              }}
+            >
+              <i className="fa fa-save" /> Save
+            </Button>{' '}
+            <Button color="danger" onClick={toggleOpen}>
+              <i className="fa fa-times" /> Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+
         <Modal isOpen={modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Modifier les informations</ModalHeader>
           <ModalBody>
@@ -141,7 +183,7 @@ const Profile = (props) => {
                       className={classnames({ active: activeTab === '1' })}
                       onClick={() => { toggleTab('1'); }}
                     >
-                      Basic Info
+                      Informations Personnels
                     </NavLink>
                   </NavItem>
                   <NavItem>
@@ -149,7 +191,7 @@ const Profile = (props) => {
                       className={classnames({ active: activeTab === '2' })}
                       onClick={() => { toggleTab('2'); }}
                     >
-                      More Tabs
+                      .
                     </NavLink>
                   </NavItem>
                 </Nav>
@@ -178,11 +220,14 @@ const Profile = (props) => {
                         <label style={{fontWeight: 'bold'}}>Date de naissance</label>
                       </Col>
                       <Col md="8" lg="6">
-                        {(new Date(user.date_naissance)).toDateString()}
+                        {format(new Date(user.date_naissance), "dd-MM-yyyy")}
                       </Col>
                     </Row>
-                    <Button color="info" className="mt-4" onClick={toggle}>
+                    <Button color="info" className="mt-4 mr-2" onClick={toggle}>
                       <i className="fa fa-edit mr-1"/> Modifier les informations
+                    </Button>
+                    <Button color="info" className="mt-4" onClick={toggleOpen}>
+                      <i className="fa fa-lock mr-1"/> Modifier le Mot de Passe
                     </Button>
                   </TabPane>
                   {/*<TabPane tabId="2">
