@@ -23,12 +23,16 @@ import {
   ListGroup, 
   ListGroupItem,
 } from "reactstrap";
+import { format } from "date-fns";
 
 const TableEnseignant = props => {
   const [ enseignants, setEnseignants ] = useState([]);
   const [ departements, setDepartements ] = useState([]);
 
   const [ modal, setModal ] = useState(false);
+  const [ isOpen, setIsOpen ] = useState(false);
+
+  const [ enseiToDelete, setEnseiToDelete ] = useState(null);
 
   const [ enseignantId, setEnseignantId ] = useState(null);
   const [ modalTitle, setModalTitle ] = useState(null);
@@ -80,7 +84,7 @@ const TableEnseignant = props => {
     setCin( _item !== null ? _item.cin : "");
     setNom( _item !== null ? _item.nom : "" );
     setPrenom( _item !== null ? _item.prenom : "");
-    setDateNassance( _item !== null ? _item.date_naissance : "");
+    setDateNassance( _item !== null ? format(new Date(_item.date_naissance), "yyyy-MM-dd") : "");
     setAdresse( _item !== null ? _item.adresse : "" );
     setEmail( _item !== null ? _item.email : "" );
     setGsm( _item !== null ? _item.GSM : "");
@@ -93,6 +97,16 @@ const TableEnseignant = props => {
       setLeftDeps([]);
       setRightDeps(departements);
     }
+  };
+
+  const toggleConfirm = (_id) => {
+    if (_id !== null && isOpen === false) {
+      setEnseiToDelete(_id);
+    } else {
+      setEnseiToDelete(null);
+    }
+
+    setIsOpen(!isOpen);
   };
 
   const addDep = (_dep) => {
@@ -144,15 +158,52 @@ const TableEnseignant = props => {
       });
   };
 
-  const deleteEnseignant = (_id) => {
-    axios.delete(`http://localhost:3000/enseignant/EnseignantdeleteById/${_id}`)
+  const deleteEnseignant = () => {
+    axios.delete(`http://localhost:3000/enseignant/EnseignantdeleteById/${enseiToDelete}`)
       .then(response => {
         getAllEnseignants();
       });
   };
 
+  const getEnseignantName = () => {
+    if (enseiToDelete !== null) {
+      const ensei = enseignants.find(e => e._id === enseiToDelete);
+      return `${ensei.nom} ${ensei.prenom}`;
+    }
+
+    return "";
+  };
+
   return (
     <Container>
+
+      <Modal isOpen={isOpen} toggle={() => toggleConfirm(null)} size="md">
+        <ModalHeader>Supprimer Enseignant</ModalHeader>
+        <ModalBody >
+          <center><p>Voulez-vous supprimer l'enseignant <strong>{getEnseignantName()}</strong>?</p></center>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color="info"
+            className="mr-4"
+            onClick={() => {
+              deleteEnseignant();
+              toggleConfirm(null);
+            }}
+          >
+            <i className="fa fa-check" />{' '}
+            Oui
+          </Button>
+          <Button
+            color="secondary"
+            onClick={() => toggleConfirm(null)}
+          >
+            <i className="fa fa-times" />{' '}
+            Non
+          </Button>
+        </ModalFooter>
+      </Modal>
+
       <Modal isOpen={modal} toggle={() => toggle(null, null, null)} size="lg">
         <ModalHeader toggle={() => toggle(null, null, null)} style={{backgroundColor:"#FFCC00"}}>
           <div id="contained-modal-title-vcenter">
@@ -381,7 +432,7 @@ const TableEnseignant = props => {
                   <tr>
                     <td>
                       <i class=' fa fa-edit fa-lg mt-8 ' style={{color:"green"}} onClick={() => toggle(item, "Modifier Enseignant", "Modifier")}></i>
-                      <i class=' fa fa-trash fa-lg mt-8 ' style={{color:"black"}} onClick={() => deleteEnseignant(item._id)}></i>
+                      <i class=' fa fa-trash fa-lg mt-8 ' style={{color:"black"}} onClick={() => toggleConfirm(item._id)}></i>
                     </td>
                     <td>{item.matricule}</td>
                     <td>{item.cin}</td>

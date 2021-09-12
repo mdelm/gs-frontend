@@ -106,7 +106,7 @@ const AdminAttestations = (props) => {
 	return (
 		<Container className="mt-4">
 			<Modal isOpen={isOpen} toggle={() => toggle(null)} size="md">
-				<ModalHeader>{attToDelete}</ModalHeader>
+				<ModalHeader>Supprimer Attestation</ModalHeader>
 				<ModalBody >
 					<center>Voulez-vous supprimer cette attestition?</center>
 				</ModalBody>
