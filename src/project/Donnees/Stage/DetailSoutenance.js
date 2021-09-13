@@ -9,7 +9,7 @@ import {
 	ModalFooter,
 	Input,
 	FormGroup,
-	FormText
+	FormText,
 } from "reactstrap";
 import "./DetailSoutenanceStyle.css";
 import userController from '../../../project/services/Controllers/userController';
@@ -19,6 +19,7 @@ import { saveAs } from "file-saver";
 const DetailSoutenance = (props) => {
 	const [ user, setUser ] = useState(null);
 	const [ stage, setStage ] = useState(null);
+	const [ rapport, setRapport ] = useState(null);
 
 	const [ departements, setDepartements ] = useState([]);
 
@@ -32,14 +33,17 @@ const DetailSoutenance = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (user !== null) fetchStage();
+		if (user !== null) {
+			fetchStage();
+			fetchRapport();
+		}
 	}, [user]);
 
 	const getOneUser = () => {
 		const userCtrl = new userController();
 		userCtrl.getoneUserById(localStorage.getItem('iduser'))
 			.then(response => {
-	      console.log('response from get one user by id', response);
+	      // console.log('response from get one user by id', response);
 	      setUser(response.data.data);
 	    });
 	};
@@ -48,6 +52,13 @@ const DetailSoutenance = (props) => {
 		axios.get(`http://localhost:3000/stages/getStage/${props.match.params.stage_id}`)
 			.then(response => {
 				setStage(response.data.data);
+			});
+	};
+
+	const fetchRapport = () => {
+		axios.get(`http://localhost:3000/rapport/bystage/${props.match.params.stage_id}`)
+			.then(res => {
+				setRapport(res.data.data);
 			});
 	};
 
@@ -78,6 +89,30 @@ const DetailSoutenance = (props) => {
 				console.log(err);
 			});
 	};
+
+	const downloadFile = (data, filename = "download") => {
+    if (!(data instanceof Blob)) return;
+
+    const blob = new Blob([data], { type: "application/pdf" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `${filename}-${+new Date()}.pdf`;
+    link.click();
+  };
+
+	const handleDownloadPdf = () => {
+		if (rapport !== null) {
+    	axios.get(`http://localhost:3000/rapport/download/${rapport._id}`, {
+		      responseType: "blob",
+		      headers: {
+		        Accept: "application/octet-stream"
+		      }
+		    }).then(res => downloadFile(res.data))
+		    .catch(err => {
+		      console.log(err);
+		    });
+		}
+  };
 
 	return (
 		<>
@@ -143,14 +178,32 @@ const DetailSoutenance = (props) => {
 							<td><strong>Salle</strong></td>
 							<td>{ stage && stage.soutenance.salle.nom }</td>
 						</tr>
+						{/*<tr>
+							<td><strong>Jurys</strong></td>
+							<td>{ stage && stage.soutenance.jurys.map((jury, idx) => { 
+								return <Badge className="mr-2" color="warning">
+									{`${jury.nom} ${jury.prenom}`}
+								</Badge>
+							} ) }</td>
+						</tr>*/}
 						<tr>
 							<td><strong>Jurys</strong></td>
-							<td>{ stage && stage.soutenance.jurys.map(jury => <Badge className="mr-2" color="warning">{`${jury.nom} ${jury.prenom}`}</Badge>) }</td>
+							<td>
+								{ stage && stage.soutenance.jurys[0] && <Badge className="mr-2" color="warning"><i className="fa fa-user" />{` ${stage.soutenance.jurys[0].nom} ${stage.soutenance.jurys[0].prenom}`} | <span className="text-secondary">Président</span></Badge> }
+								{ stage && stage.soutenance.jurys[1] && <Badge className="mr-2" color="warning"><i className="fa fa-user" />{` ${stage.soutenance.jurys[1].nom} ${stage.soutenance.jurys[1].prenom}`} | <span className="text-secondary">Rapporteur</span></Badge> }
+							</td>
 						</tr>
 						<tr>
 							<td><strong>Rapport PDF</strong></td>
 							<td>
-								<Button size="sm" color="info" className="mr-2"><i className="fa fa-download" />{' '}Download</Button>
+								<Button 
+									size="sm" 
+									color="info"
+									className="mr-2"
+									onClick={handleDownloadPdf}
+								>
+									<i className="fa fa-download" />{' '}Download
+								</Button>
 								<Button size="sm" color="info" onClick={toggle}><i className="fa fa-upload" />{' '}Upload</Button>
 							</td>
 						</tr>
@@ -158,10 +211,10 @@ const DetailSoutenance = (props) => {
 							<td><strong>Page de garte</strong></td>
 							<td><Button size="sm" color="info"><i className="fa fa-file" /></Button></td>
 						</tr>
-						<tr>
+						{/*<tr>
 							<td><strong>Invitation Encadrant Professionnel</strong></td>
 							<td><Button size="sm" color="info">Invitation Encadrant Professionnel</Button></td>
-						</tr>
+						</tr>*/}
 					</tbody>
 				</Table>
 			</div>

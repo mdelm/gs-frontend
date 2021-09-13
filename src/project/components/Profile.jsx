@@ -22,6 +22,7 @@ import {
   ModalFooter,
   Input, 
   Label,
+  FormGroup,
 } from 'reactstrap';
 import classnames from 'classnames';
 import { format } from "date-fns";
@@ -42,7 +43,9 @@ const Profile = (props) => {
   const [ gsm, setGsm ] = useState("");
   const [ emailParent, setEmailParent ] = useState("");
 
+  const [ currentPassword, setCurrentPassword ] = useState("");
   const [ newPassword, setNewPassword ] = useState("");
+  const [ confirmNewPassword, setConfirmNewPassword ] = useState("");
 
   const [ errors, setErrors ] = useState({});
 
@@ -74,8 +77,15 @@ const Profile = (props) => {
 
   const toggleOpen = () => {
     if (isOpen === true) {
+      setCurrentPassword("");
       setNewPassword("");
-      setErrors({...errors, "new-password": ""});
+      setConfirmNewPassword("");
+      setErrors({
+        ...errors, 
+        "new-password": "", 
+        "current-password": "", 
+        "confirm-new-password": ""
+      });
     } 
     setIsOpen(!isOpen);
   }
@@ -107,7 +117,9 @@ const Profile = (props) => {
     if (newPassword !== "") {
       axios.put(`http://localhost:3000/userrr/changepassword`, { _id: user._id, password: newPassword })
         .then(res => {
+          setCurrentPassword("");
           setNewPassword("");
+          setConfirmNewPassword("");
         });
     }
   };
@@ -118,6 +130,14 @@ const Profile = (props) => {
 
     switch (name) {
 
+      case "current-password":
+        if (value === "") msg = "requis";
+        setErrors({
+          ...errors,
+          "current-password": msg
+        });
+        break;
+
       case "new-password":
         if (value === "") {
           msg = "requis";
@@ -127,6 +147,15 @@ const Profile = (props) => {
         setErrors({
           ...errors,
           [name]: msg
+        });
+        break;
+
+      case "confirm-new-password":
+        if (value === "") msg = "requis";
+        if (newPassword !== "" && newPassword !== confirmNewPassword) msg = "not match";
+        setErrors({
+          ...errors,
+          "confirm-new-password": msg
         });
         break;
 
@@ -185,17 +214,45 @@ const Profile = (props) => {
       <Container className="mt-4">
 
         <Modal isOpen={isOpen} toggle={toggleOpen} size="md">
-          <ModalHeader>Modifier le Mot de Passe</ModalHeader>
+          <ModalHeader toggle={toggleOpen} style={{backgroundColor:"#FFCC00"}}>
+            <div id="contained-modal-title-vcenter">
+              <h1 style={{color:"black", fontSize:"28px", fontWeight:"35px"}}>Modifier le Mot de Passe</h1>
+            </div>
+          </ModalHeader>
           <ModalBody>
-            <label htmlFor="nom" className="label-required">Nouveau Mot de Passe: </label>
-            <Input 
-              type="text" 
-              name="new-password"  
-              onBlur={validateForm}
-              onChange={(e) => setNewPassword(e.target.value)} 
-              value={newPassword}
-            />
-            {errors && errors["new-password"] !== "" && <div className="text-danger">{' '}{errors["new-password"]}</div>}
+            <FormGroup>
+              <label htmlFor="nom" className="label-required">Mot de Passe Actual : </label>
+              <Input 
+                type="password" 
+                name="current-password"  
+                onBlur={validateForm}
+                onChange={(e) => setCurrentPassword(e.target.value)} 
+                value={currentPassword}
+              />
+              {errors && errors["current-password"] !== "" && <div className="text-danger">{' '}{errors["current-password"]}</div>}
+            </FormGroup>
+            <FormGroup>
+              <label htmlFor="nom" className="label-required">Nouveau Mot de Passe : </label>
+              <Input 
+                type="password" 
+                name="new-password"  
+                onBlur={validateForm}
+                onChange={(e) => setNewPassword(e.target.value)} 
+                value={newPassword}
+              />
+              {errors && errors["new-password"] !== "" && <div className="text-danger">{' '}{errors["new-password"]}</div>}
+            </FormGroup>
+            <FormGroup>
+              <label htmlFor="nom" className="label-required">Confirmer Nouveau Mot de Passe : </label>
+              <Input 
+                type="password" 
+                name="confirm-new-password"  
+                onBlur={validateForm}
+                onChange={(e) => setConfirmNewPassword(e.target.value)} 
+                value={confirmNewPassword}
+              />
+              {errors && errors["confirm-new-password"] !== "" && <div className="text-danger">{' '}{errors["confirm-new-password"]}</div>}
+            </FormGroup>
           </ModalBody>
           <ModalFooter>
             <Button 
@@ -214,7 +271,11 @@ const Profile = (props) => {
         </Modal>
 
         <Modal isOpen={modal} toggle={toggle}>
-          <ModalHeader toggle={toggle}>Modifier les informations</ModalHeader>
+          <ModalHeader toggle={toggle} style={{backgroundColor:"#FFCC00"}}>
+            <div id="contained-modal-title-vcenter">
+              <h1 style={{color:"black", fontSize:"28px", fontWeight:"35px"}}>Modifier les informations</h1>
+            </div>
+          </ModalHeader>
           <ModalBody>
             <label htmlFor="nom" className="label-required">Nom</label>
             <Input type="text" name="nom" onBlur={validateForm} onChange={(e) => setNom(e.target.value)} value={nom}/>

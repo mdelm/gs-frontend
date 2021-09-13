@@ -185,8 +185,8 @@ const TableEtudiant = props => {
 
       case "email":
         if (value === "") msg = "requis";
-        else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) msg = "adresse email incorrect";
-        setErrors({ ...errors, "nom": msg });
+        else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) msg = "adresse email incorrect. (username@example.com)";
+        setErrors({ ...errors, "email": msg });
         break;
 
       case "gsm":
@@ -213,6 +213,12 @@ const TableEtudiant = props => {
         if (value === "") msg = "requis";
         else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) msg = "adresse email incorrect";
         setErrors({ ...errors, "email_parent": msg });
+        break;
+
+      case "annee":
+        if (value === "") msg = "requis";
+        else if (!/^[0-9]{4}$/.test(value)) msg = "annee incorrect. (example: 2021)";
+        setErrors({ ...errors, "annee": msg });
         break;
     }
   }
@@ -412,10 +418,14 @@ const TableEtudiant = props => {
             <div class="group">
                 <label><i class="fa fa-user"></i> </label>
                 <input 
-                  type="number" 
+                  name="annee"
+                  type="text" 
                   placeholder="Annee" 
                   style={{marginLeft:"25px"}}
-                  onChange={e => setAnnee(e.target.value)} value={annee}/>
+                  onChange={e => setAnnee(e.target.value)} value={annee}
+                  onBlur={validateForm}
+                />
+                {errors && errors["annee"] !== "" && <div className="text-danger" style={{marginLeft:"25px"}}>{' '}{errors["annee"]}</div>}
                 <span class="highlight"style={{marginLeft:"25px"}} />
                 <span class="bar" style={{marginLeft:"25px"}}></span>
             </div>

@@ -10,7 +10,8 @@ import {
   Button,
   FormGroup,
   Label,
-  FormText
+  FormText,
+  Badge,
 } from "reactstrap";
 import axios from "axios";
 import userController from '../../../project/services/Controllers/userController';
@@ -26,6 +27,7 @@ const TableRapport = (props) => {
 	const [ rapports, setRapports ] = useState([]);
 	const [ departements, setDepartements ] = useState([]);
 	const [ stages, setStages ] = useState([]);
+	const [ etudiants, setEtudiants ] = useState([]);
 
 	const [ departement, setDepartement ] = useState("");
 
@@ -39,7 +41,10 @@ const TableRapport = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (usr !== null) { fetchStages(); console.log(usr); }
+		if (usr !== null) { 
+			fetchStages();
+			fetchEtudiants();
+		}
 	}, [usr]);
 
 	useEffect(() => {
@@ -60,6 +65,13 @@ const TableRapport = (props) => {
 				setStages(res.data.data);
 			});
 	};
+
+	const fetchEtudiants = () => {
+    axios.get('http://localhost:3000/etudiants/findAllEtudiant')
+      .then(response => {
+        setEtudiants(response.data.data);
+      });
+  };
 
 	const fetchRapports = () => {
 		axios.get("http://localhost:3000/rapport/all")
@@ -143,6 +155,31 @@ const TableRapport = (props) => {
   		return "";
   };
 
+  const getBinomeNames = (_stage_id) => {
+  	const stg = stages.find(s => s._id === _stage_id);
+  	if (stg) {
+  		const etud1 = etudiants.find(e => e._id === stg.binome[0]);
+  		const etud2 = etudiants.find(e => e._id === stg.binome[1]);
+
+  		return <>
+  			<Badge color="dark" className="text-white"><i className="fa fa-user mr-2" />{`${etud1.nom} ${etud1.prenom}`}</Badge>
+  			<br/>
+  			<Badge color="dark" className="text-white"><i className="fa fa-user mr-2" />{`${etud2.nom} ${etud2.prenom}`}</Badge>
+  		</>;
+  	} else {
+  		return "---";
+  	}
+  };
+
+  const getStageSujet = (_stage_id) => {
+  	const stg = stages.find(s => s._id === _stage_id);
+  	if (stg) {
+  		return stg.sujet;
+  	} else {
+  		return "---";
+  	}
+  };
+
 	return (
 		<Container>
       <Modal isOpen={modal} toggle={toggle} size="lg">
@@ -164,7 +201,7 @@ const TableRapport = (props) => {
 		        	}
 		        </Input>
 		      </FormGroup>
-
+		      <br/>
 		      {/*<Label for="exampleFile">File</Label>*/}
         	<FormGroup>
 		        <Input type="file" name="file" id="file" />
@@ -227,9 +264,10 @@ const TableRapport = (props) => {
         <Table>
           <thead>
             <tr>
-              <th scope="col">Action</th>
-              <th scope="col">Nom</th>
+              <th scope="col">Sujet</th>
+              <th scope="col">Binome</th>
               <th scope="col">Departement</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -243,13 +281,14 @@ const TableRapport = (props) => {
           			})
 	          		.map(rapport => {
 	          			return <tr>
+	          				<td>{getStageSujet(rapport.stage)}</td>
+	          				<td>{getBinomeNames(rapport.stage)}</td>
+	          				<td>{getDepartementNomFromId(rapport.departement)}</td>
 	          				<td>
 	          					<Button size="sm" color="info" onClick={() => handleDownloadPdf(rapport._id) }>
-	          						<GetAppRoundedIcon />
+	          						<GetAppRoundedIcon />{' '}Download
 	          					</Button>
 	          				</td>
-	          				<td>{rapport.nom}</td>
-	          				<td>{getDepartementNomFromId(rapport.departement)}</td>
 	          			</tr>
 	          		})
           	}
