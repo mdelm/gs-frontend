@@ -55,6 +55,11 @@ const TableEnseignant = props => {
 
   const [ errors, setErrors ] = useState({});
 
+  const [ alertMessage, setAlertMessage ] = useState("");
+  const [ visible, setVisible ] = useState(false);
+
+  const onDismiss = () => setVisible(false);
+
   useEffect(() => {
     getAllEnseignants();
     getAllDepartements();
@@ -140,6 +145,8 @@ const TableEnseignant = props => {
       .then(response => {
         getAllEnseignants();
         toggle(null, null, null);
+        setAlertMessage("Enseignant ajouter avec succées");
+        setVisible(true);
       });
   };
 
@@ -159,6 +166,8 @@ const TableEnseignant = props => {
       .then(response => {
         getAllEnseignants();
         toggle(null, null, null);
+        setAlertMessage("Enseignant modifier avec succées");
+        setVisible(true);
       });
   };
 
@@ -166,6 +175,8 @@ const TableEnseignant = props => {
     axios.delete(`http://localhost:3000/enseignant/EnseignantdeleteById/${enseiToDelete}`)
       .then(response => {
         getAllEnseignants();
+        setAlertMessage("Enseignant supprimer avec succées");
+        setVisible(true);
       });
   };
 
@@ -453,6 +464,12 @@ const TableEnseignant = props => {
             </button>
         </ModalFooter>
       </Modal>
+
+      <Alert color="success" isOpen={visible} toggle={onDismiss} fade={false} className="mt-2">
+        <i className="fa fa-check" />{' '}
+        {alertMessage}
+      </Alert>
+      
       <div> 
         <PageHeader
           title="Enseignant"

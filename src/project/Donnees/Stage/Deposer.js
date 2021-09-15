@@ -33,11 +33,16 @@ const Deposer = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (user !== null) fetchClasse();
+		if (user !== null) {
+			fetchClasse();
+			setBinome([user._id]);
+		}
 	}, [user]);
 
 	useEffect(() => {
-		if (classe !== null) fetchEtudiants();
+		if (classe !== null) {
+			fetchEtudiants();
+		}
 	}, [classe]);
 
 	const fetchClasse = () => {
@@ -99,11 +104,13 @@ const Deposer = (props) => {
 
 	const getSelectedBinome = () => {
 		let str = "";
-		for(let i = 0; i < binome.length; i++) {
-			let etudiant = etudiants.find(etud => etud._id === binome[i]);
-			str += `[${i+1}] ${etudiant.nom} ${etudiant.prenom}`;
-			if (i !== binome.length - 1)
-				str += ", "
+		if (etudiants.length !== 0) {
+			for(let i = 0; i < binome.length; i++) {
+				let etudiant = etudiants.find(etud => etud._id === binome[i]);
+				str += `[${i+1}] ${etudiant.nom} ${etudiant.prenom}`;
+				if (i !== binome.length - 1)
+					str += ", "
+			}
 		}
 		str += "";
 		return str;

@@ -52,6 +52,11 @@ const TableEtudiant = props => {
 
   const [ errors, setErrors ] = useState({});
 
+  const [ alertMessage, setAlertMessage ] = useState("");
+  const [ visible, setVisible ] = useState(false);
+
+  const onDismiss = () => setVisible(false);
+
   useEffect(() => {
     getAllEtudiant();
   }, []);
@@ -123,6 +128,8 @@ const TableEtudiant = props => {
         getAllEtudiant()
         toggle(null, null, null);
       });
+      setAlertMessage("Etudiant ajouter avec succées");
+      setVisible(true);
   };
 
   const updateEtudiant = () => {
@@ -146,6 +153,8 @@ const TableEtudiant = props => {
       .then(response => {
         getAllEtudiant();
         toggle(null, null, null);
+        setAlertMessage("Etudiant modifier avec succées");
+        setVisible(true);
       });
   };
 
@@ -153,6 +162,8 @@ const TableEtudiant = props => {
     axios.delete(`http://localhost:3000/etudiants/deleteOneEtudiant/${etudToDelete}`)
       .then(response => {
         getAllEtudiant();
+        setAlertMessage("Etudiant supprimer avec succées");
+        setVisible(true)
       });
   };
 
@@ -460,6 +471,12 @@ const TableEtudiant = props => {
           </form>
         </ModalBody>
       </Modal>
+
+      <Alert color="success" isOpen={visible} toggle={onDismiss} fade={false} className="mt-2">
+        <i className="fa fa-check" />{' '}
+        {alertMessage}
+      </Alert>
+
       <div> 
         <PageHeader
           title="Etudiant"
